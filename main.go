@@ -4,4 +4,5 @@ import "Cafecho/routes"
 
 func main() {
 	routes.InitRouter()
+
 }
