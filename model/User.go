@@ -15,12 +15,22 @@ type User struct {
 	Role     int    `gorm:"type: int" json:"role"`
 }
 
-// CheckUser 查询用户是否存在
+// CheckUser 查询用户是否存在(UserName)
 func CheckUser(username string) (code int) {
 	var user User
 	db.Select("id").Where("username = ?", username).First(&user)
 	if user.ID > 0 {
 		return errmsg.ErrorUsernameUsed
+	}
+	return errmsg.SUCCESS
+}
+
+// CheckUser_ID CheckUser 查询用户是否存在(ID)
+func CheckUser_ID(id int) (code int) {
+	var user User
+	db.Select("id").Where("id = ?", id).First(&user)
+	if user.ID > 0 {
+		return errmsg.ERROR
 	}
 	return errmsg.SUCCESS
 }

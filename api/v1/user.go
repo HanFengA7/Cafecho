@@ -68,9 +68,17 @@ func EditUser(c *gin.Context) {
 // DeleteUser 删除用户
 func DeleteUser(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	code := model.DeleteUser(id)
-	c.JSON(http.StatusOK, gin.H{
-		"status":  code,
-		"message": errmsg.GetErrMsg(code),
-	})
+	code := model.CheckUser_ID(id)
+	if code == errmsg.ERROR {
+		model.DeleteUser(id)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "SUCCESS",
+			"message": "删除成功！",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "FAIL",
+			"message": "用户不存在无法删除！",
+		})
+	}
 }
