@@ -13,11 +13,12 @@ var db *gorm.DB
 var err error
 
 func InitDb() {
-	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/dbname?charset=utf8mb4&parseTime=True&loc=Local",
+	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		utils.DbUser,
 		utils.DbPassWord,
 		utils.DbHost,
 		utils.DbPort,
+		utils.DbName,
 	)
 
 	db, err = gorm.Open(mysql.New(mysql.Config{
@@ -34,11 +35,14 @@ func InitDb() {
 	})
 
 	if err != nil {
-		fmt.Printf("数据库连接失败,请检查配置！", err)
+		fmt.Printf("数据库连接失败,请检查配置！\n %s", err)
 	}
 
 	//自动迁移
-	db.AutoMigrate()
+	err := db.AutoMigrate(&User{}, &Category{}, &Article{})
+	if err != nil {
+		return
+	}
 
 	sqlDB, _ := db.DB()
 	// SetMaxIdleConns 设置空闲连接池中连接的最大数量
@@ -47,4 +51,7 @@ func InitDb() {
 	sqlDB.SetMaxOpenConns(100)
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
 	sqlDB.SetConnMaxLifetime(10 * time.Second)
+
+	//sqlDB.Close()
+
 }

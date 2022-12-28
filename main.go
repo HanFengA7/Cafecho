@@ -1,8 +1,11 @@
 package main
 
-import "Cafecho/routes"
+import (
+	"Cafecho/model"
+	"Cafecho/routes"
+)
 
 func main() {
+	model.InitDb()
 	routes.InitRouter()
-
 }
