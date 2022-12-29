@@ -16,7 +16,7 @@ func InitRouter() {
 		// 增加用户
 		RouterV1.POST("user/add", v1.AddUser)
 		// 查询单个用户
-		RouterV1.GET("user", v1.GetUser)
+		RouterV1.GET("user/:id", v1.GetUser)
 		// 查询用户列表
 		RouterV1.GET("users", v1.GetUsers)
 		// 编辑用户

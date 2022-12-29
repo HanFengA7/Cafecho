@@ -78,8 +78,18 @@ func DeleteUser(id int) (code int) {
 	return errmsg.SUCCESS
 }
 
+// GetUser 查询单个用户
+func GetUser(id int) []User {
+	var user []User
+	err := db.Where("id = ?", id).Find(&user).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil
+	}
+	return user
+}
+
 // EditUser 编辑用户
-func EditUser(id int, data *User) int {
+func EditUser(id int, data *User) (code int) {
 	var user User
 	var maps = make(map[string]interface{})
 	maps["username"] = data.UserName

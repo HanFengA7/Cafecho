@@ -23,13 +23,23 @@ func AddUser(c *gin.Context) {
 	})
 }
 
-// UserExist 查询用户是否存在
-func UserExist(c *gin.Context) {
-
-}
-
 // GetUser 查询单个用户
 func GetUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	code := model.CheckUserID(id)
+	if code == errmsg.ERROR {
+		data := model.GetUser(id)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  errmsg.SUCCESS,
+			"data":    data,
+			"message": "查询成功！",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  errmsg.ERROR,
+			"message": "用户不存在无法查询！",
+		})
+	}
 
 }
 
