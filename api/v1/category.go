@@ -48,8 +48,38 @@ func CheckCategoryExist(c *gin.Context) {
 
 //查询分类下的文章
 
-//查询分类列表
+// GetCategory 查询分类列表
+func GetCategory(c *gin.Context) {
+	pageSize, _ := strconv.Atoi(c.Query("page_size"))
+	pageNum, _ := strconv.Atoi(c.Query("page_num"))
+	if pageNum == 0 {
+		pageSize = 1
+	}
+	data := model.GetCategory(pageSize, pageNum)
+	code := errmsg.SUCCESS
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
 
-//编辑分类
+// EditCategory 编辑分类
+func EditCategory(c *gin.Context) {
+	var data model.Category
+	id, _ := strconv.Atoi(c.Param("id"))
+	_ = c.ShouldBindJSON(&data)
+	code := model.CheckCategoryExist(id, data.Name)
+	if code == errmsg.SUCCESS {
+		model.EditCategory(id, &data)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
+	})
+
+}
 
 //删除分类

@@ -25,8 +25,8 @@ func CheckUser(username string) (code int) {
 	return errmsg.SUCCESS
 }
 
-// CheckUser_ID CheckUser 查询用户是否存在(ID)
-func CheckUser_ID(id int) (code int) {
+// CheckUserID CheckUser 查询用户是否存在(ID)
+func CheckUserID(id int) (code int) {
 	var user User
 	db.Select("id").Where("id = ?", id).First(&user)
 	if user.ID > 0 {

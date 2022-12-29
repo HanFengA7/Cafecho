@@ -1,6 +1,9 @@
 package model
 
-import "Cafecho/utils/errmsg"
+import (
+	"Cafecho/utils/errmsg"
+	"gorm.io/gorm"
+)
 
 type Category struct {
 	ID   uint   `gorm:"column:id;primaryKey;autoIncrement" json:"id"`
@@ -41,8 +44,26 @@ func CheckCategoryExist(id int, name string) (code int) {
 
 //查询大概分类下的文章
 
-//查询分类列表
+// GetCategory 查询分类列表
+func GetCategory(pageSize int, pageNum int) []Category {
+	var category []Category
+	err := db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil
+	}
+	return category
+}
 
-//编辑分类
+// EditCategory 编辑分类
+func EditCategory(id int, data *Category) (code int) {
+	var category Category
+	var maps = make(map[string]interface{})
+	maps["name"] = data.Name
+	err := db.Model(&category).Where("id = ?", id).Updates(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
 //删除分类

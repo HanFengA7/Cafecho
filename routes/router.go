@@ -28,11 +28,13 @@ func InitRouter() {
 		// 增加分类
 		RouterV1.POST("category/add", v1.AddCategory)
 		// 查询分类列表
+		RouterV1.GET("category", v1.GetCategory)
 		// 查询分类是否存在(Name)
 		RouterV1.GET("category/CheckA/:name", v1.CheckCategoryExistName)
 		// 查询分类是否存在(ID and Name)
 		RouterV1.GET("category/CheckB/:id/:name", v1.CheckCategoryExist)
-
+		// 编辑分类
+		RouterV1.PUT("category/:id", v1.EditCategory)
 		//ArticleModel RouterV1 Api
 	}
 
