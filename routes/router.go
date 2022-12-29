@@ -41,6 +41,8 @@ func InitRouter() {
 		//ArticleModel RouterV1 Api
 		// 增加文章
 		RouterV1.POST("article/add", v1.AddArticle)
+		//编辑文章
+		RouterV1.PUT("article/:id", v1.EditArticle)
 	}
 
 	router.Run(utils.HttpPort)

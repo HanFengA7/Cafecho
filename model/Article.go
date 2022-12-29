@@ -8,11 +8,11 @@ import (
 type Article struct {
 	gorm.Model
 	Category Category `gorm:"foreignKey:Cid"`
-	Title    string   `gorm:"type:varchar(20);not null" json:"title"`
-	Cid      int      `gorm:"type:int;not null" json:"cid"`
-	Desc     string   `gorm:"type:varchar(200)" json:"desc"`
-	Content  string   `gorm:"type:longtext" json:"content"`
-	Img      string   `gorm:"type:varchar(200)" json:"img"`
+	Title    string   `gorm:"column:title;type:varchar(20);not null" json:"title"`
+	Cid      int      `gorm:"column:cid;type:int;not null" json:"cid"`
+	Desc     string   `gorm:"column:desc;type:varchar(200)" json:"desc"`
+	Content  string   `gorm:"column:content;type:longtext" json:"content"`
+	Img      string   `gorm:"column:img;type:varchar(200)" json:"img"`
 }
 
 // AddArticle 增加文章
@@ -28,6 +28,20 @@ func AddArticle(data *Article) (code int) {
 
 //todo 查询文章列表
 
-//编辑文章
+// EditArticle 编辑文章
+func EditArticle(id int, data *Article) (code int) {
+	var article Article
+	var maps = make(map[string]interface{})
+	maps["title"] = data.Title
+	maps["cid"] = data.Cid
+	maps["desc"] = data.Desc
+	maps["content"] = data.Content
+	maps["img"] = data.Img
+	err := db.Model(&article).Where("id = ?", id).Updates(&maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
 
 //删除文章
