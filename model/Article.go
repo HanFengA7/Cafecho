@@ -44,4 +44,12 @@ func EditArticle(id int, data *Article) (code int) {
 	return errmsg.SUCCESS
 }
 
-//删除文章
+// DeleteArticle 删除文章
+func DeleteArticle(id int) (code int) {
+	var article Article
+	err := db.Where("id = ?", id).Unscoped().Delete(&article).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}

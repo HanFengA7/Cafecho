@@ -37,4 +37,14 @@ func EditArticle(c *gin.Context) {
 	})
 }
 
-//删除文章
+// DeleteArticle 删除文章
+func DeleteArticle(c *gin.Context) {
+	var data model.Article
+	id, _ := strconv.Atoi(c.Param("id"))
+	code := model.DeleteArticle(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": "删除成功!",
+	})
+}

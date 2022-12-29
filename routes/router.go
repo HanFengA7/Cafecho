@@ -43,6 +43,8 @@ func InitRouter() {
 		RouterV1.POST("article/add", v1.AddArticle)
 		//编辑文章
 		RouterV1.PUT("article/:id", v1.EditArticle)
+		//删除文章
+		RouterV1.DELETE("article/:id", v1.DeleteArticle)
 	}
 
 	router.Run(utils.HttpPort)
