@@ -69,7 +69,7 @@ func GetUsers(pageSize int, pageNum int) []User {
 }
 
 // DeleteUser 删除用户
-func DeleteUser(id int) int {
+func DeleteUser(id int) (code int) {
 	var user User
 	err := db.Where("id = ?", id).Unscoped().Delete(&user).Error
 	if err != nil {

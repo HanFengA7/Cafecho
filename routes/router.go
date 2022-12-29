@@ -35,6 +35,9 @@ func InitRouter() {
 		RouterV1.GET("category/CheckB/:id/:name", v1.CheckCategoryExist)
 		// 编辑分类
 		RouterV1.PUT("category/:id", v1.EditCategory)
+		// 删除分类
+		RouterV1.DELETE("category/:id", v1.DeleteCategory)
+
 		//ArticleModel RouterV1 Api
 	}
 

@@ -79,7 +79,24 @@ func EditCategory(c *gin.Context) {
 		"data":    data,
 		"message": errmsg.GetErrMsg(code),
 	})
-
 }
 
-//删除分类
+// DeleteCategory 删除分类
+func DeleteCategory(c *gin.Context) {
+	var data model.Category
+	id, _ := strconv.Atoi(c.Param("id"))
+	code := model.CheckCategoryExistID(id)
+	if code == errmsg.SUCCESS {
+		model.DeleteCategory(id)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "SUCCESS",
+			"data":    data,
+			"message": "删除成功！",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  "FAIL",
+			"message": "分类不存在无法删除！",
+		})
+	}
+}

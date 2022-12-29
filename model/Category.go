@@ -29,10 +29,20 @@ func CheckCategoryExistName(name string) (code int) {
 	return errmsg.SUCCESS
 }
 
+// CheckCategoryExistID 查询分类是否存在(ID)
+func CheckCategoryExistID(id int) (code int) {
+	var category Category
+	db.Select("id").Where("id = ?", id).First(&category)
+	if category.ID == uint(id) {
+		return errmsg.SUCCESS
+	}
+	return errmsg.ERROR
+}
+
 // CheckCategoryExist 查询分类是否存在(ID and Name)
 func CheckCategoryExist(id int, name string) (code int) {
 	var category Category
-	db.Select("id").Where("name = ?", name).First(&category)
+	db.Select("id, name").Where("name = ?", name).First(&category)
 	if category.ID == uint(id) {
 		return errmsg.SUCCESS
 	}
@@ -66,4 +76,12 @@ func EditCategory(id int, data *Category) (code int) {
 	return errmsg.SUCCESS
 }
 
-//删除分类
+// DeleteCategory 删除分类
+func DeleteCategory(id int) (code int) {
+	var category Category
+	err := db.Where("id = ?", id).Unscoped().Delete(&category).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCESS
+}
