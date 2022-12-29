@@ -13,7 +13,7 @@ func InitRouter() {
 	RouterV1 := router.Group("api/v1")
 	{
 		//UserModel RouterV1 Api
-		//增加用户
+		// 增加用户
 		RouterV1.POST("user/add", v1.AddUser)
 		// 查询单个用户
 		RouterV1.GET("user", v1.GetUser)
@@ -25,6 +25,13 @@ func InitRouter() {
 		RouterV1.DELETE("user/:id", v1.DeleteUser)
 
 		//CategoryModel RouterV1 Api
+		// 增加分类
+		RouterV1.POST("category/add", v1.AddCategory)
+		// 查询分类列表
+		// 查询分类是否存在(Name)
+		RouterV1.GET("category/CheckA/:name", v1.CheckCategoryExistName)
+		// 查询分类是否存在(ID and Name)
+		RouterV1.GET("category/CheckB/:id/:name", v1.CheckCategoryExist)
 
 		//ArticleModel RouterV1 Api
 	}

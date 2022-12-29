@@ -11,6 +11,8 @@ const (
 	ErrorTokeRuntime       = 1005
 	ErrorTokeWrong         = 1006
 	ErrorTokeTypeWrong     = 1007
+
+	ErrorCategoryNameUsed = 2001
 )
 
 var CodeMsg = map[int]string{
@@ -23,6 +25,7 @@ var CodeMsg = map[int]string{
 	ErrorTokeRuntime:       "TOKE已过期",
 	ErrorTokeWrong:         "TOKE不正确",
 	ErrorTokeTypeWrong:     "TOKE格式错误",
+	ErrorCategoryNameUsed:  "分类名已存在",
 }
 
 func GetErrMsg(code int) string {
