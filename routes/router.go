@@ -39,6 +39,8 @@ func InitRouter() {
 		RouterV1.DELETE("category/:id", v1.DeleteCategory)
 
 		//ArticleModel RouterV1 Api
+		// 增加文章
+		RouterV1.POST("article/add", v1.AddArticle)
 	}
 
 	router.Run(utils.HttpPort)

@@ -52,7 +52,7 @@ func CheckCategoryExist(id int, name string) (code int) {
 	return errmsg.SUCCESS
 }
 
-//查询大概分类下的文章
+//查询分类下的文章
 
 // GetCategory 查询分类列表
 func GetCategory(pageSize int, pageNum int) []Category {
