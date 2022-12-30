@@ -47,6 +47,9 @@ func InitRouter() {
 		RouterV1.DELETE("article/:id", v1.DeleteArticle)
 	}
 
-	router.Run(utils.HttpPort)
+	err := router.Run(utils.HttpPort)
+	if err != nil {
+		return
+	}
 
 }
