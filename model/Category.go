@@ -53,10 +53,10 @@ func CheckCategoryExist(id int, name string) (code int) {
 }
 
 // GetCategoryArticleAll 查询分类下的文章
-func GetCategoryArticleAll(id int, pageSize int, pageNum int) ([]Article, int) {
+func GetCategoryArticleAll(cid int, pageSize int, pageNum int) ([]Article, int) {
 	var categoryArticleList []Article
-	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("cid = ?", id).Find(&categoryArticleList).Error
-	if err != nil {
+	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("cid = ?", cid).Find(&categoryArticleList).Error
+	if err != nil || err == gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR
 	}
 	return categoryArticleList, errmsg.SUCCESS
@@ -66,7 +66,7 @@ func GetCategoryArticleAll(id int, pageSize int, pageNum int) ([]Article, int) {
 func GetCategory(pageSize int, pageNum int) ([]Category, int) {
 	var category []Category
 	err := db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
-	if err != nil && err == gorm.ErrRecordNotFound {
+	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR
 	}
 	return category, errmsg.SUCCESS

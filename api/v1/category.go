@@ -54,12 +54,20 @@ func GetCategoryArticleAll(c *gin.Context) {
 	if pageNum == 0 {
 		pageSize = 1
 	}
-	data, code := model.GetCategoryArticleAll(id, pageSize, pageNum)
-	c.JSON(http.StatusOK, gin.H{
-		"status":  code,
-		"data":    data,
-		"message": errmsg.GetErrMsg(code),
-	})
+	code := model.CheckCategoryExistID(id)
+	if code == errmsg.SUCCESS {
+		data, code1 := model.GetCategoryArticleAll(id, pageSize, pageNum)
+		c.JSON(http.StatusOK, gin.H{
+			"status":  code1,
+			"data":    data,
+			"message": errmsg.GetErrMsg(code1),
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  code,
+			"message": "分类不存在无法查询分类下的文章！",
+		})
+	}
 }
 
 // GetCategory 查询分类列表
