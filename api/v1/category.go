@@ -46,7 +46,21 @@ func CheckCategoryExist(c *gin.Context) {
 	})
 }
 
-//查询分类下的文章
+// GetCategoryArticleAll 查询分类下的文章
+func GetCategoryArticleAll(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	pageSize, _ := strconv.Atoi(c.Query("page_size"))
+	pageNum, _ := strconv.Atoi(c.Query("page_num"))
+	if pageNum == 0 {
+		pageSize = 1
+	}
+	data, code := model.GetCategoryArticleAll(id, pageSize, pageNum)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
 
 // GetCategory 查询分类列表
 func GetCategory(c *gin.Context) {

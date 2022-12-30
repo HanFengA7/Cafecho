@@ -52,7 +52,15 @@ func CheckCategoryExist(id int, name string) (code int) {
 	return errmsg.SUCCESS
 }
 
-//查询分类下的文章
+// GetCategoryArticleAll 查询分类下的文章
+func GetCategoryArticleAll(id int, pageSize int, pageNum int) ([]Article, int) {
+	var categoryArticleList []Article
+	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("id = ?", id).Find(&categoryArticleList).Error
+	if err != nil {
+		return nil, errmsg.ERROR
+	}
+	return categoryArticleList, errmsg.SUCCESS
+}
 
 // GetCategory 查询分类列表
 func GetCategory(pageSize int, pageNum int) ([]Category, int) {
