@@ -24,16 +24,24 @@ func AddArticle(data *Article) (code int) {
 	return errmsg.SUCCESS
 }
 
-//todo 查询单个文章
+// GetArticleInfo 查询单个文章
+func GetArticleInfo(id int) (Article, int) {
+	var article Article
+	err := db.Preload("Category").Where("id = ?", id).First(&article).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return article, errmsg.ErrorArticleNotExist
+	}
+	return article, errmsg.SUCCESS
+}
 
 // GetArticleList 查询文章列表
 func GetArticleList(pageSiz int, pageNum int) ([]Article, int) {
-	var articlelist []Article
-	err := db.Preload("Category").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articlelist).Error
+	var articleList []Article
+	err := db.Preload("Category").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR
 	}
-	return articlelist, errmsg.SUCCESS
+	return articleList, errmsg.SUCCESS
 }
 
 // EditArticle 编辑文章

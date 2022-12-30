@@ -13,6 +13,8 @@ const (
 	ErrorTokeTypeWrong     = 1007
 
 	ErrorCategoryNameUsed = 2001
+
+	ErrorArticleNotExist = 3001
 )
 
 var CodeMsg = map[int]string{
@@ -26,6 +28,7 @@ var CodeMsg = map[int]string{
 	ErrorTokeWrong:         "TOKE不正确",
 	ErrorTokeTypeWrong:     "TOKE格式错误",
 	ErrorCategoryNameUsed:  "分类名已存在",
+	ErrorArticleNotExist:   "文章不存在！",
 }
 
 func GetErrMsg(code int) string {
