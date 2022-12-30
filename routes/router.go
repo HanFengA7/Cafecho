@@ -27,6 +27,8 @@ func InitRouter() {
 		//CategoryModel RouterV1 Api
 		// 增加分类
 		RouterV1.POST("category/add", v1.AddCategory)
+		// 查询分类下的文章
+		RouterV1.GET("category/AllArticleList/:id", v1.GetCategoryArticleAll)
 		// 查询分类列表
 		RouterV1.GET("category", v1.GetCategory)
 		// 查询分类是否存在(Name)
@@ -41,7 +43,8 @@ func InitRouter() {
 		//ArticleModel RouterV1 Api
 		// 增加文章
 		RouterV1.POST("article/add", v1.AddArticle)
-		//
+		// 查询单个文章
+		RouterV1.GET("article/:id", v1.GetArticleInfo)
 		// 查询文章列表
 		RouterV1.GET("article", v1.GetArticleList)
 		//编辑文章

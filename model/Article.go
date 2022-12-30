@@ -28,7 +28,7 @@ func AddArticle(data *Article) (code int) {
 func GetArticleInfo(id int) (Article, int) {
 	var article Article
 	err := db.Preload("Category").Where("id = ?", id).First(&article).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil && err == gorm.ErrRecordNotFound {
 		return article, errmsg.ErrorArticleNotExist
 	}
 	return article, errmsg.SUCCESS
@@ -38,7 +38,7 @@ func GetArticleInfo(id int) (Article, int) {
 func GetArticleList(pageSiz int, pageNum int) ([]Article, int) {
 	var articleList []Article
 	err := db.Preload("Category").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil && err == gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR
 	}
 	return articleList, errmsg.SUCCESS
