@@ -22,7 +22,20 @@ func AddArticle(c *gin.Context) {
 
 //todo 查询单个文章
 
-//todo 查询文章列表
+// GetArticleList 查询文章列表
+func GetArticleList(c *gin.Context) {
+	pageSize, _ := strconv.Atoi(c.Query("page_size"))
+	pageNum, _ := strconv.Atoi(c.Query("page_num"))
+	if pageNum == 0 {
+		pageSize = 1
+	}
+	data, code := model.GetArticleList(pageSize, pageNum)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
 
 // EditArticle 编辑文章
 func EditArticle(c *gin.Context) {

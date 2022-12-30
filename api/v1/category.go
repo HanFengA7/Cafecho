@@ -55,8 +55,7 @@ func GetCategory(c *gin.Context) {
 	if pageNum == 0 {
 		pageSize = 1
 	}
-	data := model.GetCategory(pageSize, pageNum)
-	code := errmsg.SUCCESS
+	data, code := model.GetCategory(pageSize, pageNum)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,

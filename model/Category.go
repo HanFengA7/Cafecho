@@ -55,13 +55,13 @@ func CheckCategoryExist(id int, name string) (code int) {
 //查询分类下的文章
 
 // GetCategory 查询分类列表
-func GetCategory(pageSize int, pageNum int) []Category {
+func GetCategory(pageSize int, pageNum int) ([]Category, int) {
 	var category []Category
 	err := db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil, errmsg.ERROR
 	}
-	return category
+	return category, errmsg.SUCCESS
 }
 
 // EditCategory 编辑分类

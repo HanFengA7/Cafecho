@@ -26,7 +26,15 @@ func AddArticle(data *Article) (code int) {
 
 //todo 查询单个文章
 
-//todo 查询文章列表
+// GetArticleList 查询文章列表
+func GetArticleList(pageSiz int, pageNum int) ([]Article, int) {
+	var articlelist []Article
+	err := db.Preload("Category").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articlelist).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, errmsg.ERROR
+	}
+	return articlelist, errmsg.SUCCESS
+}
 
 // EditArticle 编辑文章
 func EditArticle(id int, data *Article) (code int) {
