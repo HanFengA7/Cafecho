@@ -15,21 +15,16 @@ var JwtKey = []byte(utils.JwtKey)
 type MyClaims struct {
 	Username string `json:"username"`
 	jwt.RegisteredClaims
-
-	Issuer    string
-	ExpiresAt int64
-	IssuedAt  *jwt.NumericDate
-	NotBefore *jwt.NumericDate
 }
 
 // SetToken 生成Token
 func SetToken(username string) (string, int) {
-	ExpiresTime := time.Now().Add(24 * time.Hour).Unix()
 	RegisteredClaims := MyClaims{
-		ExpiresAt: ExpiresTime,
-		IssuedAt:  jwt.NewNumericDate(time.Now()),
-		NotBefore: jwt.NewNumericDate(time.Now()),
-		Issuer:    "Cafecho",
+		"username",
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
+			Issuer:    "Cafecho",
+		},
 	}
 
 	reqClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, RegisteredClaims)
@@ -46,7 +41,7 @@ func CheckToken(token string) (*MyClaims, int) {
 	regToken, _ := jwt.ParseWithClaims(token, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return JwtKey, nil
 	})
-	if key, code := regToken.Claims.(*MyClaims); code && regToken.Valid {
+	if key, _ := regToken.Claims.(*MyClaims); regToken.Valid {
 		return key, errmsg.SUCCESS
 	} else {
 		return nil, errmsg.ERROR
@@ -60,26 +55,43 @@ func JwtToken() gin.HandlerFunc {
 		code := errmsg.SUCCESS
 		if tokenHeader == "" {
 			code = errmsg.ErrorTokeExist
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
 			c.Abort()
+			return
 		}
 		checkToken := strings.SplitN(tokenHeader, " ", 2)
 		if len(checkToken) != 2 && checkToken[0] != "Bearer" {
 			code = errmsg.ErrorTokeTypeWrong
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
 			c.Abort()
+			return
 		}
 		key, tokenCode := CheckToken(checkToken[1])
 		if tokenCode == errmsg.ERROR {
 			code = errmsg.ErrorTokeWrong
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
 			c.Abort()
+			return
 		}
-		if time.Now().Unix() > key.ExpiresAt {
+		if jwt.NewNumericDate(time.Now()).Unix() > key.ExpiresAt.Unix() {
 			code = errmsg.ErrorTokeRuntime
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
 			c.Abort()
+			return
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"code":    code,
-			"message": errmsg.GetErrMsg(code),
-		})
+
 		c.Set("username", key.Username)
 		c.Next()
 	}
