@@ -29,6 +29,7 @@ func init() {
 	}
 	LoadServer(file)
 	LoadData(file)
+	LoadUPYUN(file)
 }
 
 func LoadServer(file *ini.File) {
@@ -44,4 +45,10 @@ func LoadData(file *ini.File) {
 	DbUser = file.Section("database").Key("DbUser").MustString("Cafecho")
 	DbPassWord = file.Section("database").Key("DbPassWord").MustString("12345678")
 	DbName = file.Section("database").Key("DbName").MustString("Cafecho")
+}
+
+func LoadUPYUN(file *ini.File) {
+	UPYUNBucket = file.Section("upyun").Key("UPYUNBucket").String()
+	UPYUNOperator = file.Section("upyun").Key("UPYUNOperator").String()
+	UPYUNPassword = file.Section("upyun").Key("UPYUNPassword").String()
 }
