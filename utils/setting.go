@@ -16,6 +16,10 @@ var (
 	DbUser     string
 	DbPassWord string
 	DbName     string
+
+	UPYUNBucket   string
+	UPYUNOperator string
+	UPYUNPassword string
 )
 
 func init() {
