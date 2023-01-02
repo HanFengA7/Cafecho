@@ -20,6 +20,7 @@ var (
 	UPYUNBucket   string
 	UPYUNOperator string
 	UPYUNPassword string
+	UPYUNPath     string
 )
 
 func init() {
@@ -51,4 +52,5 @@ func LoadUPYUN(file *ini.File) {
 	UPYUNBucket = file.Section("upyun").Key("UPYUNBucket").String()
 	UPYUNOperator = file.Section("upyun").Key("UPYUNOperator").String()
 	UPYUNPassword = file.Section("upyun").Key("UPYUNPassword").String()
+	UPYUNPath = file.Section("upyun").Key("UPYUNPath").String()
 }
