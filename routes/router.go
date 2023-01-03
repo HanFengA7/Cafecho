@@ -60,6 +60,8 @@ func InitRouter() {
 		PublicRouterV1.GET("article", v1.GetArticleList)
 
 		PublicRouterV1.POST("login", v1.Login)
+
+		PublicRouterV1.POST("test", v1.UploadIMG)
 	}
 	err := router.Run(utils.HttpPort)
 	if err != nil {

@@ -17,10 +17,11 @@ var (
 	DbPassWord string
 	DbName     string
 
-	UPYUNBucket   string
-	UPYUNOperator string
-	UPYUNPassword string
-	UPYUNPath     string
+	TCCOSBucketURL string
+	TCCOSBucketID  string
+	TCCOSREGION    string
+	TCCOSSecretID  string
+	TCCOSSecretKey string
 )
 
 func init() {
@@ -30,7 +31,7 @@ func init() {
 	}
 	LoadServer(file)
 	LoadData(file)
-	LoadUPYUN(file)
+	LoadTencentcos(file)
 }
 
 func LoadServer(file *ini.File) {
@@ -48,9 +49,10 @@ func LoadData(file *ini.File) {
 	DbName = file.Section("database").Key("DbName").MustString("Cafecho")
 }
 
-func LoadUPYUN(file *ini.File) {
-	UPYUNBucket = file.Section("upyun").Key("UPYUNBucket").String()
-	UPYUNOperator = file.Section("upyun").Key("UPYUNOperator").String()
-	UPYUNPassword = file.Section("upyun").Key("UPYUNPassword").String()
-	UPYUNPath = file.Section("upyun").Key("UPYUNPath").String()
+func LoadTencentcos(file *ini.File) {
+	TCCOSBucketURL = file.Section("tencentcos").Key("TCCOSBucketURL").String()
+	TCCOSBucketID = file.Section("tencentcos").Key("TCCOSBucketID").String()
+	TCCOSREGION = file.Section("tencentcos").Key("TCCOSREGION").String()
+	TCCOSSecretID = file.Section("tencentcos").Key("TCCOSSecretID").String()
+	TCCOSSecretKey = file.Section("tencentcos").Key("TCCOSSecretKey").String()
 }

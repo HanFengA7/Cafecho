@@ -3,58 +3,54 @@ package server
 import (
 	"Cafecho/utils"
 	"Cafecho/utils/errmsg"
-	"github.com/upyun/go-sdk/v3/upyun"
+	"context"
+	"github.com/tencentyun/cos-go-sdk-v5"
 	"mime/multipart"
+	"net/http"
+	"net/url"
 )
 
 var (
-	Bucket   = utils.UPYUNBucket
-	Operator = utils.UPYUNOperator
-	Password = utils.UPYUNPassword
-	Path     = utils.UPYUNPath
+	TCCOSBucketURL = utils.TCCOSBucketURL
+	TCCOSBucketID  = utils.TCCOSBucketID
+	TCCOSREGION    = utils.TCCOSREGION
+	TCCOSSecretID  = utils.TCCOSSecretID
+	TCCOSSecretKey = utils.TCCOSSecretKey
 )
 
-type FormUploadResp struct {
-	Code      int      `json:"code"`         // 状态码
-	Msg       string   `json:"message"`      // 状态信息
-	Url       string   `json:"url"`          // 保存路径
-	Timestamp int64    `json:"time"`         // 时间戳
-	ImgWidth  int      `json:"image-width"`  // 图片宽度
-	ImgHeight int      `json:"image-height"` // 图片高度
-	ImgFrames int      `json:"image-frames"` // 图片帧数
-	ImgType   string   `json:"image-type"`   // 图片类型
-	Sign      string   `json:"sign"`         // 签名
-	Taskids   []string `json:"task_ids"`     // 异步任务
+type CompleteMultipartUploadResult struct {
+	Location string
+	Bucket   string
+	Key      string
+	ETag     string
 }
 
-// UploadFile 上传文件
-func UploadFile(file multipart.File) (all, int) {
-
-	// UpYun配置
-	upyunCfg := upyun.NewUpYun(&upyun.UpYunConfig{
-		Bucket:   Bucket,
-		Operator: Operator,
-		Password: Password,
+func UploadFile(filepath string, file multipart.File) (error, int) {
+	u, _ := url.Parse(TCCOSBucketURL)
+	su, _ := url.Parse("https://cos." + TCCOSREGION + "myqcloud.com")
+	b := &cos.BaseURL{
+		BucketURL:  u,
+		ServiceURL: su,
+	}
+	opt := &cos.ObjectPutOptions{
+		ObjectPutHeaderOptions: &cos.ObjectPutHeaderOptions{
+			ContentType: "text/html",
+		},
+		ACLHeaderOptions: &cos.ACLHeaderOptions{
+			// 如果不是必要操作，建议上传文件时不要给单个文件设置权限，避免达到限制。若不设置默认继承桶的权限。
+			XCosACL: "private",
+		},
+	}
+	client := cos.NewClient(b, &http.Client{
+		Transport: &cos.AuthorizationTransport{
+			SecretID:  TCCOSSecretID,
+			SecretKey: TCCOSSecretKey,
+		},
 	})
 
-	// 上传文件
-	err0 := upyunCfg.Put(&upyun.PutObjectConfig{
-		Path:              Path,
-		Reader:            file,
-		Headers:           nil,
-		UseMD5:            false,
-		UseResumeUpload:   false,
-		ResumePartSize:    0,
-		MaxResumePutTries: 0,
-	})
-	if err0 != nil {
-		return _, errmsg.ERROR
+	_, err := client.Object.Put(context.Background(), filepath, file, opt)
+	if err != nil {
+		return err, errmsg.ERROR
 	}
-
-	info, err1 := upyunCfg.GetInfo(Path)
-	if err1 != nil {
-		return "", errmsg.ERROR
-	} else {
-		return info, errmsg.SUCCESS
-	}
+	return nil, errmsg.SUCCESS
 }
