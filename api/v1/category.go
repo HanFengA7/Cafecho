@@ -56,10 +56,11 @@ func GetCategoryArticleAll(c *gin.Context) {
 	}
 	code := model.CheckCategoryExistID(id)
 	if code == errmsg.SUCCESS {
-		data, code1 := model.GetCategoryArticleAll(id, pageSize, pageNum)
+		data, code1, total := model.GetCategoryArticleAll(id, pageSize, pageNum)
 		c.JSON(http.StatusOK, gin.H{
 			"status":  code1,
 			"data":    data,
+			"total":   total,
 			"message": errmsg.GetErrMsg(code1),
 		})
 	} else {
@@ -77,10 +78,11 @@ func GetCategory(c *gin.Context) {
 	if pageNum == 0 {
 		pageSize = 1
 	}
-	data, code := model.GetCategory(pageSize, pageNum)
+	data, code, total := model.GetCategory(pageSize, pageNum)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
+		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
 }
