@@ -9,7 +9,9 @@ import (
 
 func InitRouter() {
 	gin.SetMode(utils.AppMode)
-	router := gin.Default()
+	router := gin.New()
+	router.Use(middleware.Logger())
+	router.Use(gin.Recovery())
 
 	AuthRouterV1 := router.Group("api/v1")
 	AuthRouterV1.Use(middleware.JwtToken())
@@ -20,7 +22,7 @@ func InitRouter() {
 		// 查询用户列表
 		AuthRouterV1.GET("users", v1.GetUsers)
 		// 增加用户
-		AuthRouterV1.POST("user/add", v1.AddUser)
+		//AuthRouterV1.POST("user/add", v1.AddUser)
 		// 编辑用户
 		AuthRouterV1.PUT("user/:id", v1.EditUser)
 		// 删除用户
@@ -71,6 +73,7 @@ func InitRouter() {
 		//LoginModel RouterV1 Api
 		// 登录
 		PublicRouterV1.POST("login", v1.Login)
+		PublicRouterV1.POST("user/add", v1.AddUser)
 
 	}
 	err := router.Run(utils.HttpPort)
