@@ -10,8 +10,10 @@ import (
 func InitRouter() {
 	gin.SetMode(utils.AppMode)
 	router := gin.New()
+
 	router.Use(middleware.Logger())
 	router.Use(gin.Recovery())
+	router.Use(middleware.Cors())
 
 	AuthRouterV1 := router.Group("api/v1")
 	AuthRouterV1.Use(middleware.JwtToken())
