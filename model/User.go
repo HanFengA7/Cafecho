@@ -10,9 +10,9 @@ import (
 
 type User struct {
 	gorm.Model
-	UserName string `gorm:"column:username;type: varchar(20);not null" json:"username"`
-	PassWord string `gorm:"column:password;type: varchar(20);not null" json:"password"`
-	Role     int    `gorm:"column:role;type: int" json:"role"`
+	UserName string `gorm:"column:username;type: varchar(20);not null" json:"username" validate:"required,min=4,max=12" label:"用户名"`
+	PassWord string `gorm:"column:password;type: varchar(20);not null" json:"password" validate:"required,min=6,max=20" label:"密码"`
+	Role     int    `gorm:"column:role;type: int;DEFAULT:2;not null" json:"role" validate:"required,gte=2" label:"角色码"`
 }
 
 // CheckUser 查询用户是否存在(UserName)

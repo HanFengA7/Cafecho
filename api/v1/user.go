@@ -3,6 +3,7 @@ package v1
 import (
 	"Cafecho/model"
 	"Cafecho/utils/errmsg"
+	"Cafecho/utils/validator"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -11,7 +12,18 @@ import (
 // AddUser 增加用户
 func AddUser(c *gin.Context) {
 	var data model.User
+	var validateCode int
+	var msg string
 	_ = c.ShouldBindJSON(&data)
+	msg, validateCode = validator.Validate(&data)
+	if validateCode != errmsg.SUCCESS {
+		c.JSON(http.StatusOK, gin.H{
+			"status":  validateCode,
+			"message": msg,
+		})
+		c.Abort()
+		return
+	}
 	code := model.CheckUser(data.UserName)
 	if code == errmsg.SUCCESS {
 		model.CreateUser(&data)
