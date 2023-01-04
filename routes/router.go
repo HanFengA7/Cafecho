@@ -41,10 +41,18 @@ func InitRouter() {
 		AuthRouterV1.PUT("article/:id", v1.EditArticle)
 		//删除文章
 		AuthRouterV1.DELETE("article/:id", v1.DeleteArticle)
+
+		//UploadServer RouterV1 Api
+		//上传文件
+		AuthRouterV1.POST("upload", v1.Upload)
+		//上传文章图片
+		AuthRouterV1.POST("upload/article/img/", v1.UploadArticleIMG)
+
 	}
 	PublicRouterV1 := router.Group("api/v1")
 	{
 
+		//CategoryModel RouterV1 Api
 		// 查询分类下的文章
 		PublicRouterV1.GET("category/AllArticleList/:id", v1.GetCategoryArticleAll)
 		// 查询分类列表
@@ -54,14 +62,16 @@ func InitRouter() {
 		// 查询分类是否存在(ID and Name)
 		PublicRouterV1.GET("category/CheckB/:id/:name", v1.CheckCategoryExist)
 
+		//ArticleModel RouterV1 Api
 		// 查询单个文章
 		PublicRouterV1.GET("article/:id", v1.GetArticleInfo)
 		// 查询文章列表
 		PublicRouterV1.GET("article", v1.GetArticleList)
 
+		//LoginModel RouterV1 Api
+		// 登录
 		PublicRouterV1.POST("login", v1.Login)
 
-		PublicRouterV1.POST("test", v1.UploadIMG)
 	}
 	err := router.Run(utils.HttpPort)
 	if err != nil {

@@ -2,13 +2,10 @@ package v1
 
 import (
 	"Cafecho/model"
-	"Cafecho/server"
-	"Cafecho/utils"
 	"Cafecho/utils/errmsg"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 // AddArticle 增加文章
@@ -72,28 +69,4 @@ func DeleteArticle(c *gin.Context) {
 		"data":    data,
 		"message": "删除成功!",
 	})
-}
-
-func UploadIMG(c *gin.Context) {
-	id := c.Query("id")
-	img, _ := c.FormFile("img")
-	file, _ := img.Open()
-	filepath := "Article/Img/" + id + "." + strings.Split(img.Filename, `.`)[1]
-	url := utils.TCCOSBucketURL + filepath
-	var uploadStatus int
-	if id != "" {
-		_, uploadStatus = server.UploadFile(filepath, file)
-	}
-
-	if uploadStatus == errmsg.SUCCESS {
-		c.JSON(http.StatusOK, gin.H{
-			"status": uploadStatus,
-			"url":    url,
-		})
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"status": uploadStatus,
-		})
-	}
-
 }
