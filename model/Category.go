@@ -56,7 +56,7 @@ func CheckCategoryExist(id int, name string) (code int) {
 func GetCategoryArticleAll(cid int, pageSize int, pageNum int) ([]Article, int, int64) {
 	var categoryArticleList []Article
 	var total int64
-	err := db.Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("cid = ?", cid).Find(&categoryArticleList).Count(&total).Error
+	err := db.Model(&categoryArticleList).Count(&total).Preload("Category").Limit(pageSize).Offset((pageNum-1)*pageSize).Where("cid = ?", cid).Find(&categoryArticleList).Error
 	if err != nil || err == gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR, 0
 	}
@@ -67,7 +67,7 @@ func GetCategoryArticleAll(cid int, pageSize int, pageNum int) ([]Article, int, 
 func GetCategory(pageSize int, pageNum int) ([]Category, int, int64) {
 	var category []Category
 	var total int64
-	err := db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Count(&total).Error
+	err := db.Model(&category).Count(&total).Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR, 0
 	}

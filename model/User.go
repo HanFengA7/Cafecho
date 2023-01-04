@@ -62,7 +62,7 @@ func CreateUser(data *User) int {
 func GetUsers(pageSize int, pageNum int) ([]User, int64) {
 	var users []User
 	var total int64
-	err := db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&users).Count(&total).Error
+	err := db.Model(&users).Count(&total).Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&users).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, 0
 	}
