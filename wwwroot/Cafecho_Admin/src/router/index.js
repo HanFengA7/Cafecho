@@ -1,7 +1,6 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/LoginView.vue";
 import Admin from "../views/AdminView.vue";
-
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -24,11 +23,25 @@ const router = createRouter({
     ],
 });
 router.beforeEach((to, from, next) => {
+    //model 1
     //beforeEach是router的钩子函数，在进入路由前执行
     if (to.meta.title) {
         //判断是否有标题
         document.title = to.meta.title;
     }
-    next();
+    //model 2
+    const token = window.sessionStorage.getItem("token");
+    if (to.path === "/login" && token) {
+        return next("/admin");
+    }
+    else {
+        return next();
+    }
+    if (to.path === "/admin" && !token) {
+        return next("/login");
+    }
+    else {
+        return next();
+    }
 });
 export default router;
