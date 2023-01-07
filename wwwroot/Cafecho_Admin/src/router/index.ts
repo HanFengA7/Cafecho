@@ -36,14 +36,12 @@ router.beforeEach((to, from, next) => {
   const token = window.sessionStorage.getItem("token");
   if (to.path === "/login" && token) {
     return next("/admin");
-  } else {
-    return next();
   }
   if (to.path === "/admin" && !token) {
     return next("/login");
-  } else {
-    return next();
   }
+
+  return next();
 });
 
 export default router;

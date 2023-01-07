@@ -34,14 +34,9 @@ router.beforeEach((to, from, next) => {
     if (to.path === "/login" && token) {
         return next("/admin");
     }
-    else {
-        return next();
-    }
     if (to.path === "/admin" && !token) {
         return next("/login");
     }
-    else {
-        return next();
-    }
+    return next();
 });
 export default router;
