@@ -1,7 +1,3 @@
 <template>
-  <div>
-    <a-card>
-      <div style="margin-left: 50%">Cafecho 2023</div>
-    </a-card>
-  </div>
+  <a-layout-footer style="text-align: center"> Cafecho ©2023 </a-layout-footer>
 </template>

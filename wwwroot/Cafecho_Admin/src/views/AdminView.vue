@@ -1,8 +1,6 @@
 <template>
   <a-layout class="container">
-    <a-layout-sider style="width: 256px; background: #fafafa">
-      <CafechoAdminNav></CafechoAdminNav>
-    </a-layout-sider>
+    <CafechoAdminNav></CafechoAdminNav>
 
     <a-layout>
       <a-layout-header class="header">
@@ -13,9 +11,7 @@
           <a-skeleton active />
         </div>
       </a-layout-content>
-      <a-layout-footer>
-        <CafechoAdminFooter></CafechoAdminFooter>
-      </a-layout-footer>
+      <CafechoAdminFooter></CafechoAdminFooter>
     </a-layout>
   </a-layout>
 </template>

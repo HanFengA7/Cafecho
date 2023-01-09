@@ -22,7 +22,6 @@ export default {
     UserOutlined,
     ImportOutlined,
   },
-
   methods: {
     SignOutLogin() {
       window.sessionStorage.clear();

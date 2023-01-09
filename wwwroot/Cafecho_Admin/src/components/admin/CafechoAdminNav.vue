@@ -1,37 +1,96 @@
 <template>
-  <div class="logo">Cafecho Admin</div>
-  <a-menu
-    class="menu"
-    v-model:openKeys="openKeys"
-    v-model:selectedKeys="selectedKeys"
-    :mode="mode"
-    :theme="theme"
+  <a-layout-sider
+    style="width: 256px; background: #fafafa"
+    breakpoint="lg"
+    v-model:collapsed="collapsed"
   >
-    <a-menu-item key="1">
-      <template #icon>
-        <RadarChartOutlined />
-      </template>
-      控制台
-    </a-menu-item>
+    <div class="logo">
+      <span>{{ collapsed ? "Cafecho" : "Cafecho Admin" }}</span>
+    </div>
+    <a-menu
+      class="menu"
+      v-model:selectedKeys="selectedKeys"
+      :mode="mode"
+      :theme="theme"
+    >
+      <a-menu-item key="1">
+        <template #icon>
+          <RadarChartOutlined />
+        </template>
+        控制台
+      </a-menu-item>
 
-    <a-sub-menu key="sub1">
-      <template #icon>
-        <AppstoreOutlined />
-      </template>
-      <template #title>文章管理</template>
-      <a-menu-item key="3">文章列表</a-menu-item>
-      <a-menu-item key="4">文章编写</a-menu-item>
-    </a-sub-menu>
-  </a-menu>
+      <a-sub-menu key="sub1_article">
+        <template #icon>
+          <ReadOutlined />
+        </template>
+        <template #title>文章管理</template>
+        <a-menu-item key="ArticleList">
+          <template #icon>
+            <ProfileOutlined />
+          </template>
+          文章列表
+        </a-menu-item>
+        <a-menu-item key="ArticleAdd">
+          <template #icon>
+            <EditOutlined />
+          </template>
+          文章编写
+        </a-menu-item>
+      </a-sub-menu>
+
+      <a-sub-menu key="sub2_category">
+        <template #icon>
+          <BookOutlined />
+        </template>
+        <template #title>分类管理</template>
+        <a-menu-item key="CategoryList">
+          <template #icon>
+            <ProfileOutlined />
+          </template>
+          分类列表
+        </a-menu-item>
+        <a-menu-item key="CategoryAdd">
+          <template #icon>
+            <EditOutlined />
+          </template>
+          添加分类
+        </a-menu-item>
+      </a-sub-menu>
+
+      <a-sub-menu key="sub3_user">
+        <template #icon>
+          <UserOutlined />
+        </template>
+        <template #title>用户管理</template>
+        <a-menu-item key="UserList">
+          <template #icon>
+            <TeamOutlined />
+          </template>
+          用户列表
+        </a-menu-item>
+        <a-menu-item key="UserAdd">
+          <template #icon>
+            <UsergroupAddOutlined />
+          </template>
+          添加用户
+        </a-menu-item>
+      </a-sub-menu>
+    </a-menu>
+  </a-layout-sider>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
+import { reactive, toRefs } from "vue";
 import {
   RadarChartOutlined,
-  CalendarOutlined,
-  AppstoreOutlined,
-  SettingOutlined,
+  ReadOutlined,
+  EditOutlined,
+  ProfileOutlined,
+  BookOutlined,
+  UserOutlined,
+  TeamOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons-vue";
 
 import type { MenuMode, MenuTheme } from "ant-design-vue";
@@ -39,24 +98,23 @@ import type { MenuMode, MenuTheme } from "ant-design-vue";
 export default {
   components: {
     RadarChartOutlined,
+    ReadOutlined,
+    EditOutlined,
+    ProfileOutlined,
+    BookOutlined,
+    UserOutlined,
+    TeamOutlined,
+    UsergroupAddOutlined,
   },
   setup() {
     const state = reactive({
       mode: "inline" as MenuMode,
       theme: "light" as MenuTheme,
       selectedKeys: ["1"],
-      openKeys: ["sub1"],
+      collapsed: false,
     });
-    const changeMode = (checked: boolean) => {
-      state.mode = checked ? "vertical" : "inline";
-    };
-    const changeTheme = (checked: boolean) => {
-      state.theme = checked ? "dark" : "light";
-    };
     return {
       ...toRefs(state),
-      changeMode,
-      changeTheme,
     };
   },
 };
