@@ -25,7 +25,7 @@ export default {
   methods: {
     SignOutLogin() {
       window.sessionStorage.clear();
-      router.push("login");
+      router.push("/login");
     },
   },
 };

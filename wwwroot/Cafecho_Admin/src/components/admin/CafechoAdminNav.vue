@@ -12,8 +12,9 @@
       v-model:selectedKeys="selectedKeys"
       :mode="mode"
       :theme="theme"
+      @click="MenuRouterPath"
     >
-      <a-menu-item key="1">
+      <a-menu-item key="Index">
         <template #icon>
           <RadarChartOutlined />
         </template>
@@ -94,8 +95,15 @@ import {
 } from "@ant-design/icons-vue";
 
 import type { MenuMode, MenuTheme } from "ant-design-vue";
+import router from "@/router/index";
+import type { RouteLocationRaw } from "vue-router";
 
 export default {
+  methods: {
+    MenuRouterPath(item: { key: RouteLocationRaw }) {
+      router.push("/admin/" + item.key);
+    },
+  },
   components: {
     RadarChartOutlined,
     ReadOutlined,
@@ -110,7 +118,7 @@ export default {
     const state = reactive({
       mode: "inline" as MenuMode,
       theme: "light" as MenuTheme,
-      selectedKeys: ["1"],
+      selectedKeys: ["Index"],
       collapsed: false,
     });
     return {

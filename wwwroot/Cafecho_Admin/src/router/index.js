@@ -1,6 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../views/LoginView.vue";
 import Admin from "../views/AdminView.vue";
+import Index from "@/components/admin/CafechoAdminIndex.vue";
+import ArticleAdd from "@/components/article/CA_ArticleAdd.vue";
+import ArticleList from "@/components/article/CA_ArticleList.vue";
+import CategoryAdd from "@/components/category/CA_CategoryAdd.vue";
+import CategoryList from "@/components/category/CA_CategoryList.vue";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -19,6 +24,43 @@ const router = createRouter({
                 title: "admin",
             },
             component: Admin,
+            children: [
+                {
+                    path: "Index",
+                    component: Index,
+                    meta: {
+                        title: "Cafecho 后台管理页面",
+                    },
+                },
+                {
+                    path: "ArticleAdd",
+                    component: ArticleAdd,
+                    meta: {
+                        title: "Cafecho - 编写文章",
+                    },
+                },
+                {
+                    path: "ArticleList",
+                    component: ArticleList,
+                    meta: {
+                        title: "Cafecho - 文章列表",
+                    },
+                },
+                {
+                    path: "CategoryAdd",
+                    component: CategoryAdd,
+                    meta: {
+                        title: "Cafecho - 添加分类",
+                    },
+                },
+                {
+                    path: "CategoryList",
+                    component: CategoryList,
+                    meta: {
+                        title: "Cafecho - 分类列表",
+                    },
+                },
+            ],
         },
     ],
 });
@@ -32,10 +74,13 @@ router.beforeEach((to, from, next) => {
     //model 2
     const token = window.sessionStorage.getItem("token");
     if (to.path === "/login" && token) {
-        return next("/admin");
+        return next("/admin/Index");
     }
     if (to.path === "/admin" && !token) {
         return next("/login");
+    }
+    if (to.path === "/admin" || (to.path === "/admin/" && token)) {
+        return next("/admin/Index");
     }
     return next();
 });

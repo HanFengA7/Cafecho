@@ -7,9 +7,7 @@
         <CafechoAdminHeader></CafechoAdminHeader>
       </a-layout-header>
       <a-layout-content>
-        <div style="padding: 0 24px 24px">
-          <a-skeleton active />
-        </div>
+        <RouterView></RouterView>
       </a-layout-content>
       <CafechoAdminFooter></CafechoAdminFooter>
     </a-layout>
