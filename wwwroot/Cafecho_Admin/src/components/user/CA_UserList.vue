@@ -1,12 +1,22 @@
 <template>
   <div style="padding: 0 24px 24px">
-    <a-card class="BreadCrumb-Card-Admin">
-      <a-breadcrumb>
+    <a-col :xs="0" :sm="24" :md="24" :lg="24" :xl="24">
+      <a-card class="BreadCrumb-Card-Admin">
+        <a-breadcrumb>
+          <a-breadcrumb-item>首页</a-breadcrumb-item>
+          <a-breadcrumb-item>用户管理</a-breadcrumb-item>
+          <a-breadcrumb-item>用户列表</a-breadcrumb-item>
+        </a-breadcrumb>
+      </a-card>
+    </a-col>
+
+    <a-col :xs="24" :sm="0" :md="0" :lg="0" :xl="0">
+      <a-breadcrumb style="margin: 20px">
         <a-breadcrumb-item>首页</a-breadcrumb-item>
         <a-breadcrumb-item>用户管理</a-breadcrumb-item>
         <a-breadcrumb-item>用户列表</a-breadcrumb-item>
       </a-breadcrumb>
-    </a-card>
+    </a-col>
   </div>
 </template>
 
