@@ -3,8 +3,8 @@
     <a-card class="BreadCrumb-Card-Admin">
       <a-breadcrumb>
         <a-breadcrumb-item>首页</a-breadcrumb-item>
-        <a-breadcrumb-item>分类管理</a-breadcrumb-item>
-        <a-breadcrumb-item>新增分类</a-breadcrumb-item>
+        <a-breadcrumb-item>用户管理</a-breadcrumb-item>
+        <a-breadcrumb-item>用户列表</a-breadcrumb-item>
       </a-breadcrumb>
     </a-card>
   </div>

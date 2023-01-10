@@ -102,6 +102,7 @@ export default {
   methods: {
     MenuRouterPath(item: { key: RouteLocationRaw }) {
       router.push("/admin/" + item.key);
+      return item.key;
     },
   },
   components: {
@@ -118,7 +119,7 @@ export default {
     const state = reactive({
       mode: "inline" as MenuMode,
       theme: "light" as MenuTheme,
-      selectedKeys: ["Index"],
+      //selectedKeys: ["Index"],
       collapsed: false,
     });
     return {

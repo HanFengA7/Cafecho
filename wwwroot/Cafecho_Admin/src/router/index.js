@@ -6,6 +6,8 @@ import ArticleAdd from "@/components/article/CA_ArticleAdd.vue";
 import ArticleList from "@/components/article/CA_ArticleList.vue";
 import CategoryAdd from "@/components/category/CA_CategoryAdd.vue";
 import CategoryList from "@/components/category/CA_CategoryList.vue";
+import UserAdd from "@/components/user/CA_UserAdd.vue";
+import UserList from "@/components/user/CA_UserList.vue";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -58,6 +60,20 @@ const router = createRouter({
                     component: CategoryList,
                     meta: {
                         title: "Cafecho - 分类列表",
+                    },
+                },
+                {
+                    path: "UserAdd",
+                    component: UserAdd,
+                    meta: {
+                        title: "Cafecho - 新增用户",
+                    },
+                },
+                {
+                    path: "UserList",
+                    component: UserList,
+                    meta: {
+                        title: "Cafecho - 用户列表",
                     },
                 },
             ],
