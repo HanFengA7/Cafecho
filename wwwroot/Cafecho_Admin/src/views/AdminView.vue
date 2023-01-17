@@ -13,6 +13,7 @@
     </a-layout>
   </a-layout>
 </template>
+
 <script lang="ts">
 import CafechoAdminNav from "@/components/admin/CafechoAdminNav.vue";
 import CafechoAdminHeader from "@/components/admin/CafechoAdminHeader.vue";
