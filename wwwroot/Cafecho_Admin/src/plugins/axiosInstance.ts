@@ -8,5 +8,14 @@ const API = axios.create({
   timeout: 3000,
 });
 
+// 添加请求拦截器
+API.interceptors.request.use((config) => {
+  // 在发送请求之前做些什么
+  config.headers.Authorization = `Bearer ${window.sessionStorage.getItem(
+    "token"
+  )}`;
+  return config;
+});
+
 //导出我们建立的axios实例模块，ES6 export用法
 export default API;
