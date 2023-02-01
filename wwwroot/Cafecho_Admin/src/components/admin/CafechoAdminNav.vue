@@ -1,7 +1,7 @@
 <template>
   <a-layout-sider
     style="width: 256px; background: #fafafa"
-    breakpoint="lg"
+    breakpoint="xs"
     v-model:collapsed="collapsed"
   >
     <div class="logo">
@@ -119,9 +119,10 @@ export default {
     const state = reactive({
       mode: "inline" as MenuMode,
       theme: "light" as MenuTheme,
-      //selectedKeys: ["Index"],
+      selectedKeys: [router.currentRoute.value.name],
       collapsed: false,
     });
+    console.log(router.currentRoute.value.name);
     return {
       ...toRefs(state),
     };

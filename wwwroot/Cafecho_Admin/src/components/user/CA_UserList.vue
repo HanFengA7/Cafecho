@@ -34,13 +34,20 @@
         :dataSource="userList"
         :columns="columns"
         :pagination="paginationOption"
-      ></a-table>
+      >
+        <template #bodyCell="{ column, text }">
+          <template v-if="column.dataIndex === 'name'"
+            >{{ text.first }} {{ text.last }}
+          </template>
+        </template>
+      </a-table>
     </a-card>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from "@/plugins/axiosInstance";
+import { message } from "ant-design-vue";
 
 const columns = [
   {
@@ -59,36 +66,44 @@ const columns = [
     key: "address",
   },
 ];
+let paginationOption: any = {
+  pageSizeOption: ["10", "50", "100"],
+  defaultCurrent: 1,
+  defaultPageSize: 2,
+  total: 0,
+  showSizeChanger: true,
+  showTotal: (total: any) => `共${total}条`,
+  onchange: (page: any, pageSize: any) => {},
+  onshowSizeChange: (current: any, size: any) => {},
+};
+let userList: any = [];
 export default {
-  data() {
-    return {
-      paginationOptions: {
-        pageSizeOption: ["5", "10", "100"],
-        defaultCurrent: 1,
-        defaultPageSize: 2,
-        total: 0,
-        showSizeChanger: true,
-        showTotal: (total) => `共${total}条`,
-        onchange: (page, pageSize) => {},
-        onshowSizeChange: (current, size) => {},
-      },
-      userList: [],
-      columns,
-    };
-  },
   created() {
     this.getUserList();
   },
   methods: {
-    async getUserList() {
-      const res = await axios.get("users", {
+    async getUserList(): Promise<any> {
+      const { data: res } = await axios.get("users", {
         params: {
-          page_size: this.paginationOptions.defaultPageSize,
-          page_num: this.paginationOptions.defaultCurrent,
+          page_size: paginationOption.defaultPageSize,
+          page_num: paginationOption.defaultCurrent,
         },
       });
-      console.log(res);
+      if (res.status !== 200) {
+        return message.error("数据获取异常", 10);
+      } else {
+        userList = res.data;
+        let paginationOption_total = res.total;
+        console.log(res);
+      }
     },
+  },
+  data() {
+    return {
+      paginationOption,
+      userList,
+      columns,
+    };
   },
 };
 </script>

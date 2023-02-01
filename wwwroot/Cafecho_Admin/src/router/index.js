@@ -30,6 +30,7 @@ const router = createRouter({
                 {
                     path: "Index",
                     component: Index,
+                    name: "Index",
                     meta: {
                         title: "Cafecho 后台管理页面",
                     },
@@ -51,6 +52,7 @@ const router = createRouter({
                 {
                     path: "CategoryAdd",
                     component: CategoryAdd,
+                    name: "CategoryAdd",
                     meta: {
                         title: "Cafecho - 添加分类",
                     },
