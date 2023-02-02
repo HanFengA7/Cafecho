@@ -31,6 +31,7 @@
   </a-card>
 
   <a-table
+    style="margin: 15px"
     :row-key="(record) => record"
     :columns="columns"
     :data-source="dataSource"
@@ -79,16 +80,20 @@ const pagination: any = ref({
   //是否可以改变pageSize
   showSizeChanger: true,
   hideOnSinglePage: false, // 只有一页时是否隐藏分页器
-  showQuickJumper: true, //是否可以快速跳转至某页
+  //showQuickJumper: true, //是否可以快速跳转至某页
+});
+const queryParam: any = ref({
+  pageSize: 5,
+  pageNum: 1,
 });
 
 const GetList = async () => {
   const { data: res } = await axios.get("users", {
     params: {
       //每页条数
-      page_size: pagination.value.pageSize,
+      page_size: queryParam.value.pageSize,
       //当前页数
-      page_num: pagination.value.current,
+      page_num: queryParam.value.pageNum,
     },
   });
   if (res.status !== 200) {
@@ -101,12 +106,22 @@ const GetList = async () => {
 
 // 更改分页
 const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-  pagination.value = pagination;
-  console.log(pagination.value);
+  const pager = { ...pagination.value };
+  pager.current = pagination.current;
+  pager.pageSize = pagination.pageSize;
+  queryParam.value.pageSize = pagination.pageSize;
+  queryParam.value.pageNum = pagination.current;
+  //console.log(pagination.pageSize);
+  console.log(pagination);
+  if (pagination.pageSize !== pagination.pageSize) {
+    queryParam.value.pageNum = 1;
+    pager.current = 1;
+  }
+  pagination.value = pager;
   GetList();
 };
 //console.log(pagination);
-console.log(pagination.value);
+//console.log(pagination.value);
 export default {
   setup() {
     return {
