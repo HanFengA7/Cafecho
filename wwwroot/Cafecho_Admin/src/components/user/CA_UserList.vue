@@ -18,7 +18,7 @@
       </a-breadcrumb>
     </a-col>
   </div>
-  <a-card style="margin: 20px">
+  <a-card style="margin: 15px">
     <a-row>
       <a-col :span="6">
         <a-input-search placeholder="input search text" enter-button />
@@ -28,28 +28,30 @@
         <a-button type="primary" style="left: 15px">删除用户</a-button>
       </a-col>
     </a-row>
-
-    <a-table
-      ref="table"
-      size="middle"
-      :columns="columns"
-      :dataSource="dataSource"
-      :pagination="pagination"
-      @change="handleTableChange"
-    >
-    </a-table>
   </a-card>
+
+  <a-table
+    :row-key="(record) => record"
+    :columns="columns"
+    :data-source="dataSource"
+    :pagination="pagination"
+    @change="handleTableChange"
+  >
+    <template #bodyCell="{ column, text }">
+      <template v-if="column.dataIndex === 'name'"
+        >{{ text.first }} {{ text.last }}
+      </template>
+    </template>
+  </a-table>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
-import { usePagination } from "vue-request";
-import axios from "@/plugins/axiosInstance";
+import { ref } from "vue";
 import { message } from "ant-design-vue";
-
+import axios from "@/plugins/axiosInstance";
 //数据源
-let dataSource: any = [];
+const dataSource: any = ref([]);
 //表头参数
-let columns: any = [
+const columns: any = ref([
   {
     title: "ID",
     dataIndex: "ID",
@@ -65,59 +67,57 @@ let columns: any = [
     dataIndex: "role",
     key: "role",
   },
-];
+]);
 //分页参数
-let pagination: any = {
-  pageSizeOptions: ["5", "10", "20"],
+const pagination: any = ref({
   //当前页数
   current: 1,
   //每页条数
-  PageSize: 5,
+  pageSize: 5,
   //数据总数
   total: 0,
   //是否可以改变pageSize
   showSizeChanger: true,
-  //页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
-  change: (page: any, pageSize: any) => {},
-  //pageSize 变化的回调
-  showSizeChange: (current: any, size: any) => {},
-};
-export default defineComponent({
-  methods: {
-    async getList() {
-      const { data: res } = await axios.get("users", {
-        params: {
-          //每页条数
-          page_size: pagination.PageSize,
-          //当前页数
-          page_num: 1,
-        },
-      });
-      if (res.status !== 200) {
-        return message.error("数据获取异常", 10);
-      } else {
-        dataSource = res.data;
-        console.log(dataSource);
-      }
+  hideOnSinglePage: false, // 只有一页时是否隐藏分页器
+  showQuickJumper: true, //是否可以快速跳转至某页
+});
+
+const GetList = async () => {
+  const { data: res } = await axios.get("users", {
+    params: {
+      //每页条数
+      page_size: pagination.value.pageSize,
+      //当前页数
+      page_num: pagination.value.current,
     },
-  },
+  });
+  if (res.status !== 200) {
+    return message.error("数据获取异常", 10);
+  } else {
+    dataSource.value = res.data;
+    pagination.value.total = res.total;
+  }
+};
 
-  created() {
-    this.getList();
-    console.log(dataSource);
-  },
-
+// 更改分页
+const handleTableChange = (pagination: any, filters: any, sorter: any) => {
+  pagination.value = pagination;
+  console.log(pagination.value);
+  GetList();
+};
+//console.log(pagination);
+console.log(pagination.value);
+export default {
   setup() {
-    let { dataSource1, current1, pageSize1 }: any = {
-      //dataSource: ["id", "666"],
-    };
     return {
       dataSource,
       columns,
       pagination,
+      handleTableChange,
     };
   },
-});
+};
+GetList();
 </script>
 
 <style scoped>
