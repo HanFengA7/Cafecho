@@ -71,16 +71,15 @@ const columns: any = ref([
 ]);
 //分页参数
 const pagination: any = ref({
-  //当前页数
-  current: 1,
-  //每页条数
-  pageSize: 5,
+  pageSizeOptions: ["5", "10", "20"],
   //数据总数
   total: 0,
   //是否可以改变pageSize
   showSizeChanger: true,
-  hideOnSinglePage: false, // 只有一页时是否隐藏分页器
-  //showQuickJumper: true, //是否可以快速跳转至某页
+  // 只有一页时是否隐藏分页器
+  hideOnSinglePage: false,
+  //是否可以快速跳转至某页
+  showQuickJumper: false,
 });
 const queryParam: any = ref({
   pageSize: 5,
@@ -106,18 +105,20 @@ const GetList = async () => {
 
 // 更改分页
 const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-  const pager = { ...pagination.value };
+  const pager = { ...pagination };
   pager.current = pagination.current;
   pager.pageSize = pagination.pageSize;
   queryParam.value.pageSize = pagination.pageSize;
   queryParam.value.pageNum = pagination.current;
-  //console.log(pagination.pageSize);
-  console.log(pagination);
-  if (pagination.pageSize !== pagination.pageSize) {
+  console.log(queryParam.value.pageNum);
+
+  if (pager.pageSize !== pagination.pageSize) {
     queryParam.value.pageNum = 1;
     pager.current = 1;
+    console.log(pagination);
   }
-  pagination.value = pager;
+  pagination = pager;
+  console.log(pagination);
   GetList();
 };
 //console.log(pagination);

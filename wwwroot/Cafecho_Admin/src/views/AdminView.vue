@@ -1,13 +1,14 @@
 <template>
   <a-layout class="container">
     <CafechoAdminNav></CafechoAdminNav>
-
-    <a-layout>
+    <a-layout :style="{ marginLeft: '200px', height: 'fit-content' }">
       <a-layout-header class="header">
         <CafechoAdminHeader></CafechoAdminHeader>
       </a-layout-header>
-      <a-layout-content>
-        <RouterView></RouterView>
+      <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
+        <div :style="{ padding: '15px' }">
+          <RouterView></RouterView>
+        </div>
       </a-layout-content>
       <CafechoAdminFooter></CafechoAdminFooter>
     </a-layout>
@@ -34,5 +35,6 @@ export default {
   align-items: center;
   display: flex;
   background-color: #f8f8f8;
+  padding: 0;
 }
 </style>

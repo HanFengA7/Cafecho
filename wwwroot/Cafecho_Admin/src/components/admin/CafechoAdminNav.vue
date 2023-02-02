@@ -1,6 +1,14 @@
 <template>
   <a-layout-sider
-    style="width: 256px; background: #fafafa"
+    :style="{
+      /*overflow: 'auto',*/
+      height: '100vh',
+      position: 'fixed',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      background: '#fafafa',
+    }"
     breakpoint="xs"
     v-model:collapsed="collapsed"
   >
@@ -122,7 +130,7 @@ export default {
       selectedKeys: [router.currentRoute.value.name],
       collapsed: false,
     });
-    console.log(router.currentRoute.value.name);
+    //console.log(router.currentRoute.value.name);
     return {
       ...toRefs(state),
     };
