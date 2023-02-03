@@ -1,49 +1,56 @@
 <template>
-  <div style="padding: 0 24px 24px">
-    <a-col :xs="0" :sm="24" :md="24" :lg="24" :xl="24">
-      <a-card class="BreadCrumb-Card-Admin">
-        <a-breadcrumb>
-          <a-breadcrumb-item>首页</a-breadcrumb-item>
-          <a-breadcrumb-item>用户管理</a-breadcrumb-item>
-          <a-breadcrumb-item>用户列表</a-breadcrumb-item>
-        </a-breadcrumb>
-      </a-card>
-    </a-col>
-
-    <a-col :xs="24" :sm="0" :md="0" :lg="0" :xl="0">
-      <a-breadcrumb style="margin: 20px">
+  <!--PC Breadcrumb-->
+  <a-col :xs="0" :sm="24" :md="24" :lg="24" :xl="24">
+    <a-card class="BreadCrumb-Card-Admin">
+      <a-breadcrumb>
         <a-breadcrumb-item>首页</a-breadcrumb-item>
         <a-breadcrumb-item>用户管理</a-breadcrumb-item>
         <a-breadcrumb-item>用户列表</a-breadcrumb-item>
       </a-breadcrumb>
-    </a-col>
-  </div>
-  <a-card style="margin: 15px">
+    </a-card>
+  </a-col>
+  <!--PE Breadcrumb-->
+  <a-col :xs="24" :sm="0" :md="0" :lg="0" :xl="0">
+    <a-breadcrumb style="margin: 5px">
+      <a-breadcrumb-item>首页</a-breadcrumb-item>
+      <a-breadcrumb-item>用户管理</a-breadcrumb-item>
+      <a-breadcrumb-item>用户列表</a-breadcrumb-item>
+    </a-breadcrumb>
+  </a-col>
+
+  <a-card
+    style="
+      margin: 15px;
+      border-radius: 20px;
+      box-shadow: 0.5rem 0.875rem 2.375rem rgb(39 44 49 / 6%),
+        0.0625rem 0.1875rem 0.5rem rgb(39 44 49 / 3%);
+    "
+  >
     <a-row>
-      <a-col :span="6">
+      <a-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6">
         <a-input-search placeholder="input search text" enter-button />
       </a-col>
-      <a-col :span="4" style="left: 15px">
+      <a-col style="left: 15px" :xs="0" :sm="0" :md="12" :lg="12" :xl="12">
         <a-button type="primary">新增用户</a-button>
         <a-button type="primary" style="left: 15px">删除用户</a-button>
       </a-col>
     </a-row>
-  </a-card>
 
-  <a-table
-    style="margin: 15px"
-    :row-key="(record) => record"
-    :columns="columns"
-    :data-source="dataSource"
-    :pagination="pagination"
-    @change="handleTableChange"
-  >
-    <template #bodyCell="{ column, text }">
-      <template v-if="column.dataIndex === 'name'"
-        >{{ text.first }} {{ text.last }}
+    <a-table
+      style="margin: 15px"
+      :row-key="(record) => record"
+      :columns="columns"
+      :data-source="dataSource"
+      :pagination="pagination"
+      @change="handleTableChange"
+    >
+      <template #bodyCell="{ column, text }">
+        <template v-if="column.dataIndex === 'name'"
+          >{{ text.first }} {{ text.last }}
+        </template>
       </template>
-    </template>
-  </a-table>
+    </a-table>
+  </a-card>
 </template>
 <script lang="ts">
 import { ref } from "vue";
@@ -71,7 +78,7 @@ const columns: any = ref([
 ]);
 //分页参数
 const pagination: any = ref({
-  pageSizeOptions: ["5", "10", "20"],
+  pageSizeOptions: ["10", "50", "100"],
   //数据总数
   total: 0,
   //是否可以改变pageSize
@@ -82,7 +89,7 @@ const pagination: any = ref({
   showQuickJumper: false,
 });
 const queryParam: any = ref({
-  pageSize: 5,
+  pageSize: 10,
   pageNum: 1,
 });
 
@@ -121,8 +128,7 @@ const handleTableChange = (pagination: any, filters: any, sorter: any) => {
   console.log(pagination);
   GetList();
 };
-//console.log(pagination);
-//console.log(pagination.value);
+
 export default {
   setup() {
     return {

@@ -1,14 +1,12 @@
 <template>
   <a-layout class="container">
     <CafechoAdminNav></CafechoAdminNav>
-    <a-layout :style="{ marginLeft: '200px', height: 'fit-content' }">
+    <a-layout style="height: fit-content; padding-bottom: 65px">
       <a-layout-header class="header">
         <CafechoAdminHeader></CafechoAdminHeader>
       </a-layout-header>
-      <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
-        <div :style="{ padding: '15px' }">
-          <RouterView></RouterView>
-        </div>
+      <a-layout-content :style="{ margin: '40px', overflow: 'initial' }">
+        <RouterView></RouterView>
       </a-layout-content>
       <CafechoAdminFooter></CafechoAdminFooter>
     </a-layout>
@@ -27,7 +25,8 @@ export default {
 
 <style scoped>
 .container {
-  height: 100%;
+  min-height: 100%; /* 2. 需要将容器的高度设置成100% */
+  position: relative; /* 3. 容器的position设置为relative，给子元素定位提供基点 */
 }
 
 .header {

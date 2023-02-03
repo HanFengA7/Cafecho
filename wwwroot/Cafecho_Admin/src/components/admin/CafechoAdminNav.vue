@@ -1,9 +1,8 @@
 <template>
   <a-layout-sider
     :style="{
-      /*overflow: 'auto',*/
       height: '100vh',
-      position: 'fixed',
+      position: 'sticky',
       left: 0,
       top: 0,
       bottom: 0,
