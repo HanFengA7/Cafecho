@@ -8,8 +8,10 @@ import (
 type Article struct {
 	gorm.Model
 	Category Category `gorm:"foreignKey:Cid"`
+	User     User     `gorm:"foreignKey:Uid"`
 	Title    string   `gorm:"column:title;type:varchar(20);not null" json:"title"`
 	Cid      int      `gorm:"column:cid;type:int;not null" json:"cid"`
+	Uid      int      `gorm:"column:uid;type:int;not null" json:"uid"`
 	Desc     string   `gorm:"column:desc;type:varchar(200)" json:"desc"`
 	Content  string   `gorm:"column:content;type:longtext" json:"content"`
 	Img      string   `gorm:"column:img;type:varchar(200)" json:"img"`
@@ -27,7 +29,7 @@ func AddArticle(data *Article) (code int) {
 // GetArticleInfo 查询单个文章
 func GetArticleInfo(id int) (Article, int) {
 	var article Article
-	err := db.Preload("Category").Where("id = ?", id).First(&article).Error
+	err := db.Preload("Category").Preload("User").Where("id = ?", id).First(&article).Error
 	if err != nil && err == gorm.ErrRecordNotFound {
 		return article, errmsg.ErrorArticleNotExist
 	}
@@ -37,7 +39,7 @@ func GetArticleInfo(id int) (Article, int) {
 // GetArticleList 查询文章列表
 func GetArticleList(pageSiz int, pageNum int) ([]Article, int) {
 	var articleList []Article
-	err := db.Preload("Category").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
+	err := db.Preload("Category").Preload("User").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
 	if err != nil && err == gorm.ErrRecordNotFound {
 		return nil, errmsg.ERROR
 	}
@@ -50,6 +52,7 @@ func EditArticle(id int, data *Article) (code int) {
 	var maps = make(map[string]interface{})
 	maps["title"] = data.Title
 	maps["cid"] = data.Cid
+	maps["uid"] = data.Uid
 	maps["desc"] = data.Desc
 	maps["content"] = data.Content
 	maps["img"] = data.Img
