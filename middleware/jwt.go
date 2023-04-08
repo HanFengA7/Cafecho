@@ -20,7 +20,7 @@ type MyClaims struct {
 // SetToken 生成Token
 func SetToken(username string) (string, int) {
 	RegisteredClaims := MyClaims{
-		"username",
+		username,
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
 			Issuer:    "Cafecho",

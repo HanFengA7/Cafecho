@@ -10,10 +10,11 @@ import (
 
 type User struct {
 	gorm.Model
-	ID       uint   `gorm:"column:id;primaryKey;autoIncrement" json:"id"`
-	UserName string `gorm:"column:username;type: varchar(20);not null" json:"username" validate:"required,min=4,max=12" label:"用户名"`
-	PassWord string `gorm:"column:password;type: varchar(20);not null" json:"password" validate:"required,min=6,max=20" label:"密码"`
-	Role     int    `gorm:"column:role;type: int;DEFAULT:2;not null" json:"role" validate:"required,gte=2" label:"角色码"`
+	UserName  string `gorm:"column:username;type: varchar(20);not null" json:"username" validate:"required,min=4,max=12" label:"用户名"`
+	PassWord  string `gorm:"column:password;type: varchar(20);not null" json:"password" validate:"required,min=6,max=20" label:"密码"`
+	Email     string `gorm:"column:email;type: varchar(255);" json:"email" label:"电子邮箱"`
+	AvaterUrl string `gorm:"column:avaterurl;type: TEXT" json:"avaterurl" label:"头像外链"`
+	Role      int    `gorm:"column:role;type: int;DEFAULT:2;not null" json:"role" validate:"required,gte=1" label:"角色码"`
 }
 
 // CheckUser 查询用户是否存在(UserName)
@@ -60,12 +61,23 @@ func CreateUser(data *User) int {
 }
 
 // GetUsers 查询用户列表
-func GetUsers(pageSize int, pageNum int) ([]User, int64) {
+func GetUsers(username string, pageSize int, pageNum int) ([]User, int64) {
 	var users []User
 	var total int64
-	err := db.Model(&users).Count(&total).Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&users).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, 0
+	if username != "" {
+		db.Select("id,username,role,created_at,email,avaterurl").Where(
+			"username LIKE ?", username+"%",
+		).Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&users)
+		db.Model(&users).Where(
+			"username LIKE ?", username+"%",
+		).Count(&total)
+		return users, total
+	}
+	db.Select("id,username,role,created_at,email,avaterurl").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&users)
+	db.Model(&users).Count(&total)
+
+	if err != nil {
+		return users, 0
 	}
 	return users, total
 }
@@ -80,10 +92,20 @@ func DeleteUser(id int) (code int) {
 	return errmsg.SUCCESS
 }
 
-// GetUser 查询单个用户
+// GetUser 查询单个用户(ID)
 func GetUser(id int) []User {
 	var user []User
-	err := db.Where("id = ?", id).Find(&user).Error
+	err := db.Select("id,username,role,created_at,email,avaterurl").Where("id = ?", id).Find(&user).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil
+	}
+	return user
+}
+
+// GetUserName 查询单个用户(UserName)
+func GetUserName(username string) []User {
+	var user []User
+	err := db.Select("id,username,role,created_at,email,avaterurl").Where("username = ?", username).Find(&user).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil
 	}

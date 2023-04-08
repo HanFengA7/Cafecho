@@ -29,6 +29,8 @@ func InitRouter() {
 		AuthRouterV1.PUT("user/:id", v1.EditUser)
 		// 删除用户
 		AuthRouterV1.DELETE("user/:id", v1.DeleteUser)
+		//
+		AuthRouterV1.GET("AuthTokenInfo/:token", v1.AuthTokenInfo)
 
 		//CategoryModel RouterV1 Api
 		// 增加分类

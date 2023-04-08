@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"Cafecho/middleware"
 	"Cafecho/model"
 	"Cafecho/utils/errmsg"
 	"Cafecho/utils/validator"
@@ -52,17 +53,17 @@ func GetUser(c *gin.Context) {
 			"message": "用户不存在无法查询！",
 		})
 	}
-
 }
 
 // GetUsers 查询用户列表
 func GetUsers(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("page_size"))
 	pageNum, _ := strconv.Atoi(c.Query("page_num"))
+	username := c.Query("username")
 	if pageNum == 0 {
 		pageSize = 1
 	}
-	data, total := model.GetUsers(pageSize, pageNum)
+	data, total := model.GetUsers(username, pageSize, pageNum)
 	code := errmsg.SUCCESS
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
@@ -104,4 +105,16 @@ func DeleteUser(c *gin.Context) {
 			"message": "用户不存在无法删除！",
 		})
 	}
+}
+
+// AuthTokenInfo 解密Token
+func AuthTokenInfo(c *gin.Context) {
+	token := c.Param("token")
+	data, _ := middleware.CheckToken(token)
+	username := data.Username
+	UserInfo := model.GetUserName(username)
+	c.JSON(http.StatusOK, gin.H{
+		"TokenData": data,
+		"UserInfo":  UserInfo,
+	})
 }

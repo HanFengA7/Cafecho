@@ -6,12 +6,13 @@ import (
 )
 
 type Article struct {
-	gorm.Model
 	Category Category `gorm:"foreignKey:Cid"`
 	User     User     `gorm:"foreignKey:Uid"`
-	Title    string   `gorm:"column:title;type:varchar(20);not null" json:"title"`
+	Aid      uint     `gorm:"column:aid;primaryKey;autoIncrement" json:"aid"`
 	Cid      int      `gorm:"column:cid;type:int;not null" json:"cid"`
 	Uid      int      `gorm:"column:uid;type:int;not null" json:"uid"`
+	Title    string   `gorm:"column:title;type:varchar(20);not null" json:"title"`
+	Tags     string   `gorm:"column:tags;type:text" json:"tags"`
 	Desc     string   `gorm:"column:desc;type:varchar(200)" json:"desc"`
 	Content  string   `gorm:"column:content;type:longtext" json:"content"`
 	Img      string   `gorm:"column:img;type:varchar(200)" json:"img"`

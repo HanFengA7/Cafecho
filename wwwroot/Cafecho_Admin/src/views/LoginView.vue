@@ -1,159 +1,141 @@
 <template>
   <div class="container">
-    <div class="loginBox">
-      <a-form
-        ref="formRef"
-        :model="formState"
-        :rules="rules"
-        @finish="handleFinish"
-        @finishFailed="handleFinishFailed"
-        class="loginForm"
-      >
-        <a-form-item has-feedback name="username">
-          <a-input
-            v-model:value="formState.username"
-            placeholder="Username"
-            type="text"
-          >
-            <template #prefix>
-              <UserOutlined class="site-form-item-icon" />
-            </template>
-          </a-input>
-        </a-form-item>
+      <div class="loginContainer">
 
-        <a-form-item has-feedback name="password">
-          <a-input-password
-            v-model:value="formState.password"
-            placeholder="Password"
-            type="password"
+          <a-form
+                  :model="formState"
+                  :rules="rules"
+                  class="loginForm"
+                  name="loginForm"
+                  @finish="onFinish"
+                  @finishFailed="onFinishFailed"
           >
-            <template #prefix>
-              <LockOutlined class="site-form-item-icon" />
-            </template>
-          </a-input-password>
-        </a-form-item>
+              <a-form-item
+                      name="username"
+              >
+                  <a-input v-model:value="formState.username" type="text">
+                      <template #prefix>
+                          <UserOutlined class="site-form-item-icon"/>
+                      </template>
+                  </a-input>
+              </a-form-item>
+              <a-form-item
+                      name="password"
+              >
+                  <a-input v-model:value="formState.password" type="password">
+                      <template #prefix>
+                          <KeyOutlined class="site-form-item-icon"/>
+                      </template>
+                  </a-input>
+              </a-form-item>
+              <a-form-item>
+                  <a-button :disabled="disabled" class="login-form-button" html-type="submit" type="primary">
+                      Log in
+                  </a-button>
+              </a-form-item>
+          </a-form>
 
-        <div class="loginButtonBox">
-          <a-button type="primary" html-type="submit">登录</a-button>
-        </div>
-      </a-form>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import type { Rule } from "ant-design-vue/es/form";
-import { defineComponent, reactive, ref } from "vue";
-import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
-import { message, type FormInstance } from "ant-design-vue";
-import axios from "@/plugins/axiosInstance";
-import router from "@/router/index";
+<script lang="ts" setup>
+import {reactive, computed} from 'vue';
+import {UserOutlined, KeyOutlined} from '@ant-design/icons-vue';
+import {notification, message} from 'ant-design-vue';
+import type {Rule} from 'ant-design-vue/es/form';
+import api from '@/plugin/axios/api/login'
+import {useRouter} from "vue-router";
+
+const router = useRouter()
 
 interface FormState {
-  username: string;
-  password: string;
+    username: string;
+    password: string;
 }
 
-export default defineComponent({
-  components: {
-    UserOutlined,
-    LockOutlined,
-  },
-  setup() {
-    const formRef = ref<FormInstance>();
-    const formState = reactive<FormState>({
-      username: "",
-      password: "",
-    });
-
-    const rules: Record<string, Rule[]> = {
-      username: [
-        {
-          required: true,
-          message: "请输入用户名!",
-          trigger: "blur",
-        },
-        {
-          min: 4,
-          max: 20,
-          message: "用户名需大于4位小于20位",
-          trigger: "blur",
-        },
-      ],
-      password: [
-        {
-          required: true,
-          message: "请输入密码!",
-          trigger: "blur",
-        },
-        {
-          min: 6,
-          message: "密码需大于6位",
-          trigger: "blur",
-        },
-      ],
-    };
-
-    const handleFinish = async (values: any) => {
-      const { data: res } = await axios.post("login", formState);
-      if (res.status != 200) {
-        console.log(res);
-        return message
-          .loading("数据验证中...", 2)
-          .then(() => message.error(res.message, 3));
-      } else {
-        message
-          .loading("数据验证中...", 0.5)
-          .then(() => message.success("登录成功", 2.5));
-        window.sessionStorage.setItem("token", res.token);
-        await router.push("admin");
-      }
-    };
-
-    const handleFinishFailed = (errors: any) => {
-      message
-        .loading("数据验证中...", 2)
-        .then(() => message.error("请勿输入非法数据", 3));
-    };
-    return {
-      formRef,
-      formState,
-      rules,
-      handleFinish,
-      handleFinishFailed,
-    };
-  },
+const formState = reactive<FormState>({
+    username: '',
+    password: '',
 });
+
+const rules: Record<string, Rule[]> = {
+    username: [
+        {required: true, message: 'Please input Activity Username', trigger: 'change'},
+        {min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur'},
+    ],
+    password: [
+        {required: true, message: 'Please input Activity Username', trigger: 'change'},
+        {min: 8, message: 'Length should be 8', trigger: 'blur'},
+    ],
+};
+
+//数据验证成功
+const onFinish = () => {
+    api.loginApi(formState).then(res => {
+        if (res.data.status === 200) {
+            message.loading('数据处理中...', 0.5).then(
+                () => window.sessionStorage.setItem("token", res.data.token),
+            ).then(
+                () => router.push('/admin/Index')
+            ).then(
+                () => message.success('登陆成功', 2.5),
+            )
+        }
+    }).catch(error => {
+        notification.error({
+            message: 'Error',
+            description: error,
+        });
+    })
+};
+//数据验证失败
+const onFinishFailed = (errorInfo: any) => {
+    notification.warn({
+        message: 'Warn',
+        description:
+            '请勿提交非法数据！',
+    });
+};
+
+const disabled = computed(() => {
+    return !(formState.username && formState.password);
+});
+
 </script>
 
 <style scoped>
 .container {
-  height: 100%;
-  background-color: #1e1f22;
+    background: rgb(148, 148, 148);
+    background: linear-gradient(13deg, rgba(148, 148, 148, 1) 17%, rgba(116, 116, 120, 1) 83%);
+    height: 100%;
 }
 
-.loginBox {
-  width: 450px;
-  height: 300px;
-  background-color: #f8f8f8;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 5px;
+.loginContainer {
+    width: 450px;
+    height: 350px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fafafa;
+    border-radius: 18px;
 }
 
 .loginForm {
-  width: 100%;
-  position: absolute;
-  bottom: 20%;
-  padding: 0 50px;
-  box-sizing: border-box;
+    width: 100%;
+    position: absolute;
+    bottom: 20%;
+    padding: 0 15%;
+    box-sizing: border-box;
 }
 
-.loginButtonBox {
-  display: flex;
-  align-items: center; /*垂直居中*/
-  justify-content: center; /*水平居中*/
+.loginBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.login-form-button {
+    width: 100%;
 }
 </style>
