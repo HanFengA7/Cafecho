@@ -35,13 +35,15 @@ func GetArticleInfo(c *gin.Context) {
 func GetArticleList(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("page_size"))
 	pageNum, _ := strconv.Atoi(c.Query("page_num"))
+	title := c.Query("title")
 	if pageNum == 0 {
 		pageSize = 1
 	}
-	data, code := model.GetArticleList(pageSize, pageNum)
+	data, code, total := model.GetArticleList(title, pageSize, pageNum)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
+		"total":   total,
 		"message": errmsg.GetErrMsg(code),
 	})
 }

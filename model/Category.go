@@ -64,14 +64,39 @@ func GetCategoryArticleAll(cid int, pageSize int, pageNum int) ([]Article, int, 
 }
 
 // GetCategory 查询分类列表
-func GetCategory(pageSize int, pageNum int) ([]Category, int, int64) {
+func GetCategory(pageSize int, pageNum int, name string) ([]Category, int, int64) {
 	var category []Category
+	var err error
 	var total int64
-	err := db.Model(&category).Count(&total).Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil, errmsg.ERROR, 0
+	if name != "" {
+		err = db.Model(&category).Where("name LIKE ?", name+"%").Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
+		db.Model(&category).Count(&total)
+		if err != nil {
+			return nil, errmsg.ERROR, 0
+		} else {
+			return category, errmsg.SUCCESS, total
+		}
+	} else {
+		err = db.Model(&category).Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
+		db.Model(&category).Count(&total)
+		if err != nil {
+			return nil, errmsg.ERROR, 0
+		} else {
+			return category, errmsg.SUCCESS, total
+		}
 	}
-	return category, errmsg.SUCCESS, total
+}
+
+// GetCategoryID 查询单个分类
+func GetCategoryID(id int) (Category, int) {
+	var category Category
+	var err error
+	err = db.Model(&category).Where("id = ?", id).First(&category).Error
+	if err != nil {
+		return category, errmsg.ERROR
+	} else {
+		return category, errmsg.SUCCESS
+	}
 }
 
 // EditCategory 编辑分类

@@ -63,6 +63,8 @@ func InitRouter() {
 		PublicRouterV1.GET("category/AllArticleList/:id", v1.GetCategoryArticleAll)
 		// 查询分类列表
 		PublicRouterV1.GET("category", v1.GetCategory)
+		// 查询单个分类
+		PublicRouterV1.GET("category/:id", v1.GetCategoryID)
 		// 查询分类是否存在(Name)
 		PublicRouterV1.GET("category/CheckA/:name", v1.CheckCategoryExistName)
 		// 查询分类是否存在(ID and Name)

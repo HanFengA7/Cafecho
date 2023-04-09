@@ -1,8 +1,8 @@
 <template>
     <a-page-header
             style="border: 1px solid rgb(235, 237, 240)"
-            title="撰写文章"
-            @back="() => router.push('Index')"
+            title="编辑文章"
+            @back="() => router.push('../ArticleList')"
     />
     <br>
     <a-card>
@@ -11,7 +11,7 @@
                 :model="formState"
                 :rules="rules"
                 name="ArticleAddForm"
-                @finish="onFinish"
+                @finish="onFinish(aid)"
                 @finishFailed="onFinishFailed"
         >
             <a-row>
@@ -82,15 +82,17 @@
 
 <script lang="ts" setup>
 import router from "@/router";
-import {reactive, ref, toRefs} from "vue";
+import {reactive, ref, toRefs, watch} from "vue";
 import axios from "@/plugin/axios/axios";
 import Editor from "@/components/editor/index.vue";
 import {notification} from "ant-design-vue";
 import {Rule} from "ant-design-vue/es/form";
 
+
 /* *
  * [文章数据区域] [开始]
  * */
+const aid = router.currentRoute.value.params.aid
 let uid: any
 axios.get(
     'api/v1/AuthTokenInfo/' + window.sessionStorage.getItem("token"),
@@ -113,11 +115,22 @@ const formState = reactive<FormState>({
     uid: uid,
     title: '',
     desc: '',
-    tags: undefined,
+    tags: 'undefined',
     cid: undefined,
     img: '',
     content: '',
 });
+axios.get(
+    'api/v1/article/' + aid,
+).then(res => {
+    formState.title = res.data.data.title
+    formState.desc = res.data.data.desc
+    formState.cid = res.data.data.cid
+    formState.img = res.data.data.img
+    formState.content = res.data.data.content
+    TagsRef.value = res.data.data.tags.split(',')
+    //console.log(TagsRef)
+})
 /* *
  * [文章数据区域] [结束]
  * */
@@ -126,7 +139,7 @@ const formState = reactive<FormState>({
 /* *
  * [文章标签] [开始]
  * */
-const TagsRef = ref([]);
+let TagsRef = ref([]);
 /*
 const TagsHandleChange = (value:string[]) => {
     //数组转字符串
@@ -205,10 +218,10 @@ const getContent = (v: string) => {
     console.log(v)
 }
 //成功
-const onFinish = () => {
+const onFinish = (aid: any) => {
     formState.uid = uid
     formState.tags = TagsRef.value.toString()
-    axios.post('api/v1/article/add', formState).then(res => {
+    axios.put('api/v1/article/' + aid, formState).then(res => {
         if (res.data.status != 200) {
             notification.error({
                 message: 'Error',
@@ -217,9 +230,10 @@ const onFinish = () => {
         } else {
             notification.success({
                 message: 'Success',
-                description: '文章发表成功',
+                description: '文章修改成功',
             });
-            formRef.value.resetFields();
+            console.log(res.data)
+            console.log(TagsRef.value)
         }
     })
 };
@@ -235,6 +249,16 @@ const onFinishFailed = () => {
 /* *
  * [文章表单提交] [结束]
  * */
+
+watch(
+    () => router.currentRoute.value,
+    (newValue: any) => {
+        console.log(newValue)
+    },
+    {
+        immediate: true
+    }
+)
 
 GetCategoryData()
 toRefs(formState)

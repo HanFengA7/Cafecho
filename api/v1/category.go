@@ -75,14 +75,26 @@ func GetCategoryArticleAll(c *gin.Context) {
 func GetCategory(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("page_size"))
 	pageNum, _ := strconv.Atoi(c.Query("page_num"))
+	name := c.Query("name")
 	if pageNum == 0 {
 		pageSize = 1
 	}
-	data, code, total := model.GetCategory(pageSize, pageNum)
+	data, code, total := model.GetCategory(pageSize, pageNum, name)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
 		"total":   total,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
+
+// GetCategoryID 查询单个分类
+func GetCategoryID(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	data, code := model.GetCategoryID(id)
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"data":    data,
 		"message": errmsg.GetErrMsg(code),
 	})
 }
@@ -112,7 +124,7 @@ func DeleteCategory(c *gin.Context) {
 	if code == errmsg.SUCCESS {
 		model.DeleteCategory(id)
 		c.JSON(http.StatusOK, gin.H{
-			"status":  "SUCCESS",
+			"status":  code,
 			"data":    data,
 			"message": "删除成功！",
 		})

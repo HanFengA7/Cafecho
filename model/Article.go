@@ -30,7 +30,7 @@ func AddArticle(data *Article) (code int) {
 // GetArticleInfo 查询单个文章
 func GetArticleInfo(id int) (Article, int) {
 	var article Article
-	err := db.Preload("Category").Preload("User").Where("id = ?", id).First(&article).Error
+	err := db.Preload("Category").Preload("User").Where("aid = ?", id).First(&article).Error
 	if err != nil && err == gorm.ErrRecordNotFound {
 		return article, errmsg.ErrorArticleNotExist
 	}
@@ -38,13 +38,28 @@ func GetArticleInfo(id int) (Article, int) {
 }
 
 // GetArticleList 查询文章列表
-func GetArticleList(pageSiz int, pageNum int) ([]Article, int) {
+func GetArticleList(title string, pageSiz int, pageNum int) ([]Article, int, int64) {
 	var articleList []Article
-	err := db.Preload("Category").Preload("User").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
-	if err != nil && err == gorm.ErrRecordNotFound {
-		return nil, errmsg.ERROR
+	var err error
+	var total int64
+	if title != "" {
+		err = db.Preload("Category").Preload("User").Where(
+			"title LIKE ?", title+"%",
+		).Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
+		db.Model(articleList).Where("title LIKE ?", title+"%").Count(&total)
+		if err != nil {
+			return articleList, errmsg.ERROR, 0
+		} else {
+			return articleList, errmsg.SUCCESS, total
+		}
 	}
-	return articleList, errmsg.SUCCESS
+	err = db.Preload("Category").Preload("User").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
+	db.Model(articleList).Count(&total)
+	if err != nil {
+		return articleList, errmsg.ERROR, 0
+	} else {
+		return articleList, errmsg.SUCCESS, total
+	}
 }
 
 // EditArticle 编辑文章
@@ -57,7 +72,8 @@ func EditArticle(id int, data *Article) (code int) {
 	maps["desc"] = data.Desc
 	maps["content"] = data.Content
 	maps["img"] = data.Img
-	err := db.Model(&article).Where("id = ?", id).Updates(&maps).Error
+	maps["tags"] = data.Tags
+	err := db.Model(&article).Where("aid = ?", id).Updates(&maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
@@ -67,7 +83,7 @@ func EditArticle(id int, data *Article) (code int) {
 // DeleteArticle 删除文章
 func DeleteArticle(id int) (code int) {
 	var article Article
-	err := db.Where("id = ?", id).Unscoped().Delete(&article).Error
+	err := db.Where("aid = ?", id).Unscoped().Delete(&article).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

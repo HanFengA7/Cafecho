@@ -1,8 +1,8 @@
 <template>
     <div>
         <Editor
-                v-model="myValue"
-                :init="eInit"
+            v-model="ContentValue"
+            :init="eInit"
         >
         </Editor>
     </div>
@@ -15,6 +15,7 @@ import "tinymce/themes/silver/"
 import "tinymce/icons/default/"
 import "tinymce/models/dom/"
 import "tinymce/skins/content/default/content.css"
+import {defineEmits, ref, watch} from "vue"
 
 const eInit = {
     language_url: '/assets/js/tinymce/langs/zh_CN.js',
@@ -29,9 +30,33 @@ const eInit = {
 }
 tinymce.init({})
 
-import {reactive, ref} from "vue"
+const emits = defineEmits(["getContent"])
+const props = defineProps({
+    value: {
+        type: String,
+        default: () => {
+            return ""
+        },
+    },
+})
 //用于接收外部传递进来的富文本
-const myValue = ref(props.value)
+const ContentValue = ref(props.value)
+
+//监听外部传递进来的的数据变化
+watch(
+    () => props.value,
+    () => {
+        ContentValue.value = props.value
+        emits("getContent", ContentValue.value)
+    }
+)
+//监听富文本中的数据变化
+watch(
+    () => ContentValue.value,
+    () => {
+        emits("getContent", ContentValue.value)
+    }
+)
 </script>
 
 <style scoped>

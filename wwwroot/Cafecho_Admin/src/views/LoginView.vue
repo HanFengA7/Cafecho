@@ -40,9 +40,9 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, computed} from 'vue';
-import {UserOutlined, KeyOutlined} from '@ant-design/icons-vue';
-import {notification, message} from 'ant-design-vue';
+import {computed, reactive} from 'vue';
+import {KeyOutlined, UserOutlined} from '@ant-design/icons-vue';
+import {message, notification} from 'ant-design-vue';
 import type {Rule} from 'ant-design-vue/es/form';
 import api from '@/plugin/axios/api/login'
 import {useRouter} from "vue-router";
@@ -80,6 +80,15 @@ const onFinish = () => {
                 () => router.push('/admin/Index')
             ).then(
                 () => message.success('登陆成功', 2.5),
+            )
+        } else {
+            message.loading('数据处理中...', 0.5).then(
+                () => {
+                    notification.error({
+                        message: 'Error',
+                        description: res.data.message,
+                    });
+                }
             )
         }
     }).catch(error => {
