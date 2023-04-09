@@ -32,14 +32,7 @@ Cafecho is a blog written in golang.
 
 ## Back end
 
-- [ ] 用户API
-- [ ] 文章API
-- [ ] 分类API
+- [x] 用户API
+- [x] 文章API
+- [x] 分类API
 
-# Error Code
-
-## UserModel Error
-
-#### `10001` `ErrorUsernameUsed` `Username already exists`
-
-#### `10002` `ErrorUserPasswordWrong` `The user password is incorrect`
