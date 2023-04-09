@@ -2,10 +2,7 @@
 
 </template>
 
-<script>
-export default {
-    name: "CA_Footer"
-}
+<script lang="ts" setup>
 </script>
 
 <style scoped>

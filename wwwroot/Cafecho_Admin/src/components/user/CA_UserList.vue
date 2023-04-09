@@ -39,7 +39,7 @@
             :columns="columns"
             :data-source="dataSource"
             :pagination="pagination"
-            :row-key="(record) => record.ID"
+            :row-key="(record: any) => record.ID"
             style="margin: 15px"
             @change="handleTableChange"
     >

@@ -23,7 +23,7 @@ const router = createRouter({
             component: LoginView
         },
         {
-            path: '/admin/',
+            path: '/admin',
             name: 'Admin',
             component: AdminView,
             children: [
@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
     //model 2
     const token = window.sessionStorage.getItem("token");
     if ((to.path === "/login" || to.path === "/login/") && token) {
-        return next("/admin/Index");
+        return next("/Index");
     }
 
     if ((to.path === "/admin" || to.path === "/admin/") && !token) {
@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (to.path === "/admin" || (to.path === "/admin/" && token)) {
-        return next("/admin/Index");
+        return next("admin/Index");
     }
 
     return next();

@@ -15,6 +15,15 @@ func InitRouter() {
 	router.Use(gin.Recovery())
 	router.Use(middleware.Cors())
 
+	router.LoadHTMLGlob("wwwroot/Cafecho_Admin/dist/index.html")
+	router.Static("assets/", "wwwroot/Cafecho_Admin/dist/assets")
+	router.GET("admin", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+	router.GET("login", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+
 	AuthRouterV1 := router.Group("api/v1")
 	AuthRouterV1.Use(middleware.JwtToken())
 	{

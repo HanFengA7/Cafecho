@@ -7,6 +7,8 @@
     "types": [
       "node",
       "jsdom"
-    ]
+    ],
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove"
   }
 }

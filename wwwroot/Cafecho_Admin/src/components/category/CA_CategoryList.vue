@@ -25,13 +25,13 @@
         </a-col>
     </a-row>
     <a-table
-        :bordered=true
-        :columns="columns"
-        :data-source="dataSource"
-        :pagination="pagination"
-        :row-key="(record) => record.id"
-        style="margin: 15px"
-        @change="handleTableChange"
+            :bordered=true
+            :columns="columns"
+            :data-source="dataSource"
+            :pagination="pagination"
+            :row-key="(record: any) => record.id"
+            style="margin: 15px"
+            @change="handleTableChange"
     >
         <template #bodyCell="{ column, text ,record }">
             <template v-if="column.dataIndex === 'action'">
