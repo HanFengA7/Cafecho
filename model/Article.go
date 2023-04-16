@@ -45,7 +45,7 @@ func GetArticleList(title string, pageSiz int, pageNum int) ([]Article, int, int
 	if title != "" {
 		err = db.Preload("Category").Preload("User").Where(
 			"title LIKE ?", title+"%",
-		).Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
+		).Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
 		db.Model(articleList).Where("title LIKE ?", title+"%").Count(&total)
 		if err != nil {
 			return articleList, errmsg.ERROR, 0
@@ -53,7 +53,7 @@ func GetArticleList(title string, pageSiz int, pageNum int) ([]Article, int, int
 			return articleList, errmsg.SUCCESS, total
 		}
 	}
-	err = db.Preload("Category").Preload("User").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Find(&articleList).Error
+	err = db.Preload("Category").Preload("User").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
 	db.Model(articleList).Count(&total)
 	if err != nil {
 		return articleList, errmsg.ERROR, 0

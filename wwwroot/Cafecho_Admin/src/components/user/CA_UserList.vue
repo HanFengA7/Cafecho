@@ -281,6 +281,8 @@ const EditUserOK = (id: any) => {
     api.editUserApi(UserInfo, id).then(res => {
         if (res.data.status == 200) {
             message.success("成功修改用户信息！", 5);
+            console.log(UserInfo)
+            console.log(res.data)
         } else {
             message.warn(res.data.message, 5);
         }
@@ -313,15 +315,15 @@ const handleTableChange = (pagination: any, filters: any, sorter: any) => {
     pager.pageSize = pagination.pageSize;
     queryParam.value.pageSize = pagination.pageSize;
     queryParam.value.pageNum = pagination.current;
-    console.log(queryParam.value.pageNum);
+    //console.log(queryParam.value.pageNum);
 
     if (pager.pageSize !== pagination.pageSize) {
         queryParam.value.pageNum = 1;
         pager.current = 1;
-        console.log(pagination);
+        //console.log(pagination);
     }
     pagination = pager;
-    console.log(pagination);
+    //console.log(pagination);
     GetList();
 };
 
