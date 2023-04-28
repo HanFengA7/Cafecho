@@ -34,7 +34,7 @@ func InitDb() {
 	}
 
 	//自动迁移
-	err := db.AutoMigrate(&User{}, &Category{}, &Article{})
+	err := db.AutoMigrate(&User{}, &Category{}, &Article{}, &SiteInfo{})
 	if err != nil {
 		return
 	}
@@ -53,6 +53,7 @@ func InitDb() {
 	var initInstallResult1 int64
 	var initInstallResult2 int64
 	var initInstallResult3 int64
+	var initInstallResult4 int64
 	db.Model(&User{}).Count(&initInstallResult1)
 	if initInstallResult1 == 0 {
 		fmt.Printf("\n")
@@ -94,6 +95,21 @@ func InitDb() {
 		}
 		db.Create(article)
 		fmt.Printf("[Cafecho] [文章表初始化完成！]\n")
+		fmt.Printf("\n")
+	}
+	db.Model(&SiteInfo{}).Count(&initInstallResult4)
+	if initInstallResult4 == 0 {
+		fmt.Printf("[Cafecho 初始化数据库中 ...] [网站信息表]\n")
+		siteInfo := []SiteInfo{
+			{
+				SiteName: "Cafecho",
+				Slogan:   "Hello Cafecho !",
+				LogoUrl:  "https://i.stay.pub/xj/701dd99e0f67d858.jpg",
+				Blogger:  "Cafecho",
+			},
+		}
+		db.Create(siteInfo)
+		fmt.Printf("[Cafecho] [网站信息表初始化完成！]\n")
 		fmt.Printf("\n")
 	}
 }

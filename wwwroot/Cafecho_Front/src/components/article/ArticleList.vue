@@ -5,7 +5,6 @@
     <div>
         <a-timeline>
             <a-timeline-item v-for="(item,index) in articleListInfo" :key="item.aid">
-                <a @click="router.push('Article/'+item.aid)">
                     <a-card>
                         <template #actions>
                             <span class="icon-hover"> <IconThumbUp/></span>
@@ -13,28 +12,29 @@
                             <span class="icon-hover"> <IconFire/></span>
                         </template>
                         <template #cover>
-                            <div :style="{height: '204px',overflow: 'hidden',}">
-                                <img
-                                        :src=articleImgUrl(index)
-                                        alt="dessert"
-                                        style="height: 100%;width: 100%;object-fit: cover"
-                                />
-
-                            </div>
+                            <a @click="router.push('Article/'+item.aid)">
+                                <div :style="{height: '204px',overflow: 'hidden',}">
+                                    <img
+                                            :src=articleImgUrl(index)
+                                            alt="dessert"
+                                            style="height: 100%;width: 100%;object-fit: cover"
+                                    />
+                                </div>
+                            </a>
                         </template>
+
                         <a-card-meta :description=item.desc
                                      :title=item.title>
                             <template #avatar>
                                 <div :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
                                     <a-avatar :size="24" :style="{ marginRight: '8px' }">
-                                        <img alt="avatar" src="https://q1.qlogo.cn/g?b=qq&nk=1091044631&s=640"/>
+                                        <img :src="item.User.avaterurl" alt="avatar"/>
                                     </a-avatar>
                                     <a-typography-text>{{ item.User.username }}</a-typography-text>
                                 </div>
                             </template>
                         </a-card-meta>
                     </a-card>
-                </a>
                 <br/>
                 <br/>
             </a-timeline-item>
@@ -42,7 +42,6 @@
         <a-pagination :default-current="queryParam.current" :total="pagination.total"
                       @change="methods.handleCurrentChange"/>
     </div>
-
 </template>
 
 <script lang="ts" setup>

@@ -4,24 +4,34 @@ import (
 	v1 "Cafecho/api/v1"
 	"Cafecho/middleware"
 	"Cafecho/utils"
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
+
+func createMyRender() multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+	r.AddFromFiles("admin", "wwwroot/Cafecho_Admin/dist/index.html")
+	r.AddFromFiles("front", "wwwroot/Cafecho_Front/dist/index.html")
+	return r
+}
 
 func InitRouter() {
 	gin.SetMode(utils.AppMode)
 	router := gin.New()
 
+	router.HTMLRender = createMyRender()
 	router.Use(middleware.Logger())
 	router.Use(gin.Recovery())
 	router.Use(middleware.Cors())
 
-	router.LoadHTMLGlob("wwwroot/Cafecho_Admin/dist/index.html")
-	router.Static("assets/", "wwwroot/Cafecho_Admin/dist/assets")
-	router.GET("admin", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
+	router.Static("admin/assets", "wwwroot/Cafecho_Admin/dist/assets")
+	router.Static("/assets", "wwwroot/Cafecho_Front/dist/assets")
+
+	router.GET("", func(c *gin.Context) {
+		c.HTML(200, "front", nil)
 	})
-	router.GET("login", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
+	router.GET("/admin", func(c *gin.Context) {
+		c.HTML(200, "admin", nil)
 	})
 
 	AuthRouterV1 := router.Group("api/v1")
@@ -57,6 +67,10 @@ func InitRouter() {
 		//删除文章
 		AuthRouterV1.DELETE("article/:id", v1.DeleteArticle)
 
+		//SiteInfoModel RouterV1 Api
+		// 编辑网站信息
+		AuthRouterV1.PUT("siteinfo", v1.EditSiteInfo)
+
 		//UploadServer RouterV1 Api
 		//上传文件
 		AuthRouterV1.POST("upload", v1.Upload)
@@ -84,6 +98,10 @@ func InitRouter() {
 		PublicRouterV1.GET("article/:id", v1.GetArticleInfo)
 		// 查询文章列表
 		PublicRouterV1.GET("article", v1.GetArticleList)
+
+		//SiteInfoModel RouterV1 Api
+		// 查询网站信息
+		PublicRouterV1.GET("siteinfo", v1.GetSiteInfo)
 
 		//LoginModel RouterV1 Api
 		// 登录

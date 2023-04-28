@@ -77,7 +77,7 @@ const onFinish = () => {
             message.loading('数据处理中...', 0.5).then(
                 () => window.sessionStorage.setItem("token", res.data.token),
             ).then(
-                () => router.push('/admin/Index')
+                () => router.push('/Index')
             ).then(
                 () => message.success('登陆成功', 2.5),
             )

@@ -48,7 +48,8 @@ import Cafecho_Sider from "@/components/common/Sider.vue";
 import Cafecho_Header from "@/components/common/Header.vue"
 import {get} from "@/plugin/axios/request"
 import router from "@/router";
-import {reactive, toRefs} from "vue";
+import {emitter} from "@/plugin/BusJs/bus";
+import {reactive, ref, toRefs} from "vue";
 
 const aid = router.currentRoute.value.params.aid
 
@@ -91,7 +92,7 @@ let articleInfo = reactive<articleInfo>({
 const getArticleInfo = (aid: any) => {
     get({
         url: '/api/v1/article/' + aid,
-    }).then(res => {
+    }).then((res: any) => {
         articleInfo.Category.id = res.data.data.Category.id
         articleInfo.Category.name = res.data.data.Category.name
 
@@ -105,8 +106,12 @@ const getArticleInfo = (aid: any) => {
         articleInfo.desc = res.data.data.desc
         articleInfo.content = res.data.data.content
         toRefs(articleInfo)
+        /*设置标题*/
+        const Meta_Title: any = ref(articleInfo.title)
+        emitter.emit('getMetaTitle', Meta_Title)
     })
 }
+
 
 getArticleInfo(aid)
 toRefs(articleInfo)

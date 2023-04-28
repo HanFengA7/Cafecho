@@ -3,12 +3,12 @@
         <a-col :span="3">
             <a-avatar :size="128">
                 <template #icon>
-                    <UserOutlined/>
+                <img :src="UserInfo.avaterurl">
                 </template>
             </a-avatar>
         </a-col>
         <a-col :span="20">
-            <h2 style="margin-top: 30px;">下午好, {{ UserInfo.username }} , 快写文章！</h2>
+            <h2 style="margin-top: 30px;">亲爱的 {{ UserInfo.username }} 同志 , 快写文章！</h2>
         </a-col>
     </a-row>
     <a-divider/>
@@ -21,7 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-import {UserOutlined,} from "@ant-design/icons-vue";
 import {ref} from "vue";
 import axios from "@/plugin/axios/axios";
 

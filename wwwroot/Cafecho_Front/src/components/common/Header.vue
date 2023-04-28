@@ -10,12 +10,14 @@
             <a-col flex="auto"></a-col>
             <a-space>
                 <a-col flex="100px">
-                    <a-input-search :allow-clear="true" :style="{width:'200px'}" shape="round"/>
+                    <a-input-search :allow-clear="true" :style="{width:'200px'}" shape="round" @click="CTest"/>
                 </a-col>
                 <a-col flex="100px">
-                    <a-button shape="round">
-                        <IconSunFill/>
-                    </a-button>
+                    <a @click="CTest">
+                        <a-button shape="round">
+                            <IconSunFill/>
+                        </a-button>
+                    </a>
                 </a-col>
             </a-space>
         </a-row>
@@ -27,6 +29,7 @@ import {IconCaretLeft, IconCaretRight, IconSunFill} from "@arco-design/web-vue/e
 import {emitter} from "@/plugin/BusJs/bus";
 
 import {ref} from "vue";
+import {Message} from "@arco-design/web-vue";
 
 const collapsed: any = ref(false);
 
@@ -35,6 +38,9 @@ const methods = {
         collapsed.value = !collapsed.value;
         emitter.emit('getCollapsed', collapsed)
     }
+}
+const CTest = () => {
+    Message.info('正在建设中...')
 }
 
 </script>

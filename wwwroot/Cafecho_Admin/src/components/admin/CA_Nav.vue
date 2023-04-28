@@ -72,6 +72,13 @@
                     添加用户
                 </a-menu-item>
             </a-sub-menu>
+
+            <a-menu-item key="SiteInfoEdit">
+                <template #icon>
+                    <SettingOutlined/>
+                </template>
+                网站设置
+            </a-menu-item>
         </a-menu>
     </a-layout-sider>
 </template>
@@ -83,9 +90,10 @@ import {
     ProfileOutlined,
     RadarChartOutlined,
     ReadOutlined,
+    SettingOutlined,
     TeamOutlined,
     UsergroupAddOutlined,
-    UserOutlined,
+    UserOutlined
 } from "@ant-design/icons-vue";
 
 import type {MenuMode, MenuTheme} from "ant-design-vue";
@@ -94,7 +102,7 @@ import type {RouteLocationRaw} from "vue-router";
 
 const methods = {
     MenuRouterPath(item: { key: RouteLocationRaw }) {
-        router.push("/admin/" + item.key);
+        router.push(item.key);
         return item.key;
     },
 }
