@@ -18,10 +18,10 @@ import "tinymce/skins/content/default/content.css"
 import {defineEmits, ref, watch} from "vue"
 
 const eInit = {
-    language_url: '/assets/js/tinymce/langs/zh_CN.js',
+    language_url: '/admin/assets/js/tinymce/langs/zh_CN.js',
     language: 'zh_CN',
-    skin_url: '/assets/js/tinymce/skins/ui/oxide',
-    base_url: '/assets/js/tinymce/',
+    skin_url: '/admin/assets/js/tinymce/skins/ui/oxide',
+    base_url: '/admin/assets/js/tinymce/',
     height: 400,
     branding: false,
     promotion: false,
