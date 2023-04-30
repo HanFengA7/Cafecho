@@ -2,7 +2,7 @@ import axios from "axios";
 import {Message, Notification} from '@arco-design/web-vue';
 
 const Service = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "http://198.211.13.200:3000",
     timeout: 300000,
 })
 
