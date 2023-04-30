@@ -43,7 +43,7 @@ func GetArticleList(title string, pageSiz int, pageNum int) ([]Article, int, int
 	var err error
 	var total int64
 	if title != "" {
-		err = db.Preload("Category").Preload("User").Where(
+		err = db.Preload("Category").Preload("User").Select("username,avaterurl,aid,cid,uid,title,desc,content").Where(
 			"title LIKE ?", title+"%",
 		).Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
 		db.Model(articleList).Where("title LIKE ?", title+"%").Count(&total)
