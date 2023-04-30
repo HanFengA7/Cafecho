@@ -27,7 +27,7 @@ func InitRouter() {
 	router.Static("admin/assets", "wwwroot/Cafecho_Admin/dist/assets")
 	router.Static("/assets", "wwwroot/Cafecho_Front/dist/assets")
 
-	router.GET("", func(c *gin.Context) {
+	router.GET("/", func(c *gin.Context) {
 		c.HTML(200, "front", nil)
 	})
 	router.GET("/admin", func(c *gin.Context) {
