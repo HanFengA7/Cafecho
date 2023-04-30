@@ -32,7 +32,7 @@
             <a-form-item name="email" style="margin-top: 10px;">
                 <a-input v-model:value="formState.email" placeholder="电子邮箱" style="margin-top: 10px;">
                     <template #prefix>
-                        <DiffOutlined type="email"/>
+                        <DiffOutlined/>
                     </template>
                     <template #suffix>
                         <a-tooltip title="输入电子邮箱">
@@ -44,7 +44,7 @@
             <a-form-item name="avaterurl" style="margin-top: 10px;">
                 <a-input v-model:value="formState.avaterurl" placeholder="头像外链" style="margin-top: 10px;">
                     <template #prefix>
-                        <PictureOutlined type="avater"/>
+                        <PictureOutlined/>
                     </template>
                     <template #suffix>
                         <a-tooltip title="输入头像外链">
@@ -83,7 +83,7 @@
 import router from "@/router";
 import {reactive, ref, toRefs} from "vue";
 import type {Rule} from 'ant-design-vue/es/form';
-import {message, notification} from "ant-design-vue";
+import {notification} from "ant-design-vue";
 import {DiffOutlined, InfoCircleOutlined, LockOutlined, PictureOutlined, UserOutlined} from "@ant-design/icons-vue";
 import api from "@/plugin/axios/api/user/useradd";
 

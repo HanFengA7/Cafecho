@@ -42,7 +42,7 @@
             <a-form-item name="logourl" style="margin-top: 10px;">
                 <a-input v-model:value="formState.logourl" placeholder="Logo外链" style="margin-top: 10px;">
                     <template #prefix>
-                        <PictureOutlined type="avater"/>
+                        <PictureOutlined/>
                     </template>
                     <template #suffix>
                         <a-tooltip title="输入Logo外链">

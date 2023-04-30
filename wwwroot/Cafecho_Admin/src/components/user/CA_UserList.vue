@@ -96,7 +96,7 @@
             <a-form-item name="email" style="margin-top: 10px;">
                 <a-input v-model:value="UserInfo.email" placeholder="电子邮箱" style="margin-top: 10px;">
                     <template #prefix>
-                        <DiffOutlined type="email"/>
+                        <DiffOutlined/>
                     </template>
                     <template #suffix>
                         <a-tooltip title="输入电子邮箱">
@@ -108,7 +108,7 @@
             <a-form-item name="avaterurl" style="margin-top: 10px;">
                 <a-input v-model:value="UserInfo.avaterurl" placeholder="头像外链" style="margin-top: 10px;">
                     <template #prefix>
-                        <PictureOutlined type="avater"/>
+                        <PictureOutlined/>
                     </template>
                     <template #suffix>
                         <a-tooltip title="输入头像外链">
