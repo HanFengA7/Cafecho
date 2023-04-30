@@ -91,7 +91,7 @@ import {IconGithub, IconHeart, IconMindMapping, IconQqCircleFill, IconUserGroup}
 import ArticleList from "@/components/article/ArticleList.vue";
 import {emitter} from "@/plugin/BusJs/bus";
 import {ref} from "vue";
-import axios from "axios";
+import api from "@/plugin/axios/api/common/siteinfo"
 import {Message} from '@arco-design/web-vue';
 
 const SiteInfo: any = ref({
@@ -101,7 +101,7 @@ const SiteInfo: any = ref({
     blogger: ""
 })
 
-axios.get('http://localhost:3000/api/v1/siteinfo').then(res => {
+api.getSiteInfoApi().then(res => {
     /*网站信息*/
     SiteInfo.value = res.data.data[0]
     console.log(SiteInfo)
