@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import {emitter} from "@/plugin/BusJs/bus";
 
@@ -6,7 +6,7 @@ import {emitter} from "@/plugin/BusJs/bus";
 //console.log(Meta_Title.value)
 const router = createRouter(
     {
-        history: createWebHashHistory(),
+        history: createWebHistory(import.meta.env.BASE_URL),
         routes: [
             {
                 path: '/',
