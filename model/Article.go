@@ -53,7 +53,7 @@ func GetArticleList(title string, pageSiz int, pageNum int) ([]Article, int, int
 			return articleList, errmsg.SUCCESS, total
 		}
 	}
-	err = db.Preload("Category").Preload("User").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
+	err = db.Preload("Category").Preload("User{username,avaterurl}").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
 	db.Model(articleList).Count(&total)
 	if err != nil {
 		return articleList, errmsg.ERROR, 0
