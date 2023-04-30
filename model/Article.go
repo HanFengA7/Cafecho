@@ -30,7 +30,7 @@ func AddArticle(data *Article) (code int) {
 // GetArticleInfo 查询单个文章
 func GetArticleInfo(id int) (Article, int) {
 	var article Article
-	err := db.Preload("Category").Preload("User").Where("aid = ?", id).First(&article).Error
+	err := db.Preload("Category").Joins("User", db.Select("ID", "UserName", "Email", "AvaterUrl")).Where("aid = ?", id).First(&article).Error
 	if err != nil && err == gorm.ErrRecordNotFound {
 		return article, errmsg.ErrorArticleNotExist
 	}
@@ -43,7 +43,7 @@ func GetArticleList(title string, pageSiz int, pageNum int) ([]Article, int, int
 	var err error
 	var total int64
 	if title != "" {
-		err = db.Preload("Category").Preload("User").Where(
+		err = db.Preload("Category").Joins("User", db.Select("ID", "UserName", "Email", "AvaterUrl")).Where(
 			"title LIKE ?", title+"%",
 		).Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
 		db.Model(articleList).Where("title LIKE ?", title+"%").Count(&total)
@@ -53,7 +53,8 @@ func GetArticleList(title string, pageSiz int, pageNum int) ([]Article, int, int
 			return articleList, errmsg.SUCCESS, total
 		}
 	}
-	err = db.Preload("Category").Preload("User").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
+	err = db.Joins("User", db.Select("ID", "UserName", "Email", "AvaterUrl")).Joins("Category").Limit(pageSiz).Offset((pageNum - 1) * pageSiz).Order("aid desc").Find(&articleList).Error
+
 	db.Model(articleList).Count(&total)
 	if err != nil {
 		return articleList, errmsg.ERROR, 0
