@@ -2,7 +2,7 @@ import axios from "axios";
 import {message, notification} from 'ant-design-vue';
 
 const Service = axios.create({
-    baseURL: "http://198.211.13.200:3000",
+    baseURL: "https://198.211.13.200:3000",
     timeout: 300000,
 })
 
