@@ -31,27 +31,43 @@ func InitRouter() {
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(200, "front", nil)
+		router.NoRoute(func(c *gin.Context) {
+			accept := c.Request.Header.Get("Accept")
+			flag := strings.Contains(accept, "text/html")
+			if flag {
+				content, err := ioutil.ReadFile("wwwroot/Cafecho_Front/dist/index.html")
+				if (err) != nil {
+					c.Writer.WriteHeader(404)
+					c.Writer.WriteString("Not Found")
+					return
+				}
+				c.Writer.WriteHeader(200)
+				c.Writer.Header().Add("Accept", "text/html")
+				c.Writer.Write(content)
+				c.Writer.Flush()
+			}
+		})
 	})
 	router.GET("/admin", func(c *gin.Context) {
 		c.HTML(200, "admin", nil)
-	})
-	// 404 NotFound
-	router.NoRoute(func(c *gin.Context) {
-		accept := c.Request.Header.Get("Accept")
-		flag := strings.Contains(accept, "text/html")
-		if flag {
-			content, err := ioutil.ReadFile("wwwroot/Cafecho_Front/dist/index.html")
-			if (err) != nil {
-				c.Writer.WriteHeader(404)
-				c.Writer.WriteString("Not Found")
-				return
+		router.NoRoute(func(c *gin.Context) {
+			accept := c.Request.Header.Get("Accept")
+			flag := strings.Contains(accept, "text/html")
+			if flag {
+				content, err := ioutil.ReadFile("wwwroot/Cafecho_Admin/dist/index.html")
+				if (err) != nil {
+					c.Writer.WriteHeader(404)
+					c.Writer.WriteString("Not Found")
+					return
+				}
+				c.Writer.WriteHeader(200)
+				c.Writer.Header().Add("Accept", "text/html")
+				c.Writer.Write(content)
+				c.Writer.Flush()
 			}
-			c.Writer.WriteHeader(200)
-			c.Writer.Header().Add("Accept", "text/html")
-			c.Writer.Write(content)
-			c.Writer.Flush()
-		}
+		})
 	})
+
 	AuthRouterV1 := router.Group("api/v1")
 	AuthRouterV1.Use(middleware.JwtToken())
 	{
