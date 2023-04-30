@@ -24,7 +24,6 @@ func InitRouter() {
 	router.Use(middleware.Logger())
 	router.Use(gin.Recovery())
 	router.Use(middleware.Cors())
-	router.RunTLS(utils.HttpPort, "upload/ssl/crt.pem", "upload/ssl/key.pem")
 	router.Static("admin/assets", "wwwroot/Cafecho_Admin/dist/assets")
 	router.Static("/assets", "wwwroot/Cafecho_Front/dist/assets")
 
@@ -110,7 +109,7 @@ func InitRouter() {
 		PublicRouterV1.POST("user/add", v1.AddUser)
 
 	}
-	err := router.Run(utils.HttpPort)
+	err := router.RunTLS(utils.HttpPort, "upload/ssl/crt.pem", "upload/ssl/key.pem")
 	if err != nil {
 		return
 	}
