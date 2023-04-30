@@ -30,7 +30,7 @@ func InitRouter() {
 	router.GET("", func(c *gin.Context) {
 		c.HTML(200, "front", nil)
 	})
-	router.GET("/admin/*", func(c *gin.Context) {
+	router.GET("/admin", func(c *gin.Context) {
 		c.HTML(200, "admin", nil)
 	})
 
