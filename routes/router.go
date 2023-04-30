@@ -10,8 +10,8 @@ import (
 
 func createMyRender() multitemplate.Renderer {
 	r := multitemplate.NewRenderer()
-	r.AddFromFiles("admin", "wwwroot/Cafecho_Admin/dist/index.html")
-	r.AddFromFiles("front", "wwwroot/Cafecho_Front/dist/index.html")
+	r.AddFromFiles("admin", "wwwroot/web/admin/dist/index.html")
+	r.AddFromFiles("front", "wwwroot/web/front/dist/index.html")
 	return r
 }
 
@@ -24,8 +24,8 @@ func InitRouter() {
 	router.Use(gin.Recovery())
 	router.Use(middleware.Cors())
 
-	router.Static("admin/assets", "wwwroot/Cafecho_Admin/dist/assets")
-	router.Static("/assets", "wwwroot/Cafecho_Front/dist/assets")
+	router.Static("admin/assets", "wwwroot/web/admin/dist/assets")
+	router.Static("/assets", "wwwroot/web/front/dist/assets")
 
 	router.GET("", func(c *gin.Context) {
 		c.HTML(200, "front", nil)
