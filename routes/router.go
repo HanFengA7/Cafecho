@@ -20,10 +20,11 @@ func InitRouter() {
 	router := gin.New()
 
 	router.HTMLRender = createMyRender()
+	router.Use(middleware.TlsHandler())
 	router.Use(middleware.Logger())
 	router.Use(gin.Recovery())
 	router.Use(middleware.Cors())
-
+	router.RunTLS(utils.HttpPort, "upload/ssl/crt.pem", "upload/ssl/key.pem")
 	router.Static("admin/assets", "wwwroot/Cafecho_Admin/dist/assets")
 	router.Static("/assets", "wwwroot/Cafecho_Front/dist/assets")
 
