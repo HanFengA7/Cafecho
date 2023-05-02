@@ -9,7 +9,7 @@
             </a-col>
             <a-col flex="auto"></a-col>
             <a-space>
-                <a-col flex="100px">
+                <a-col :lg="{span:24}" :md="{span: 24}" :sm="{span: 0}" :xs="{span: 0}" flex="100px">
                     <a-input-search :allow-clear="true" :style="{width:'200px'}" shape="round" @click="CTest"/>
                 </a-col>
                 <a-col flex="100px">

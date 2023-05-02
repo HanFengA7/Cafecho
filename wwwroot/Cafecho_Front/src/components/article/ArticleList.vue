@@ -1,10 +1,10 @@
 <template>
-
     <br/>
     <br/>
-    <div>
-        <a-timeline>
-            <a-timeline-item v-for="(item,index) in articleListInfo" :key="item.aid">
+    <a-row :gutter="24">
+        <a-col :lg="{span:24}" :md="{span: 24}" :sm="{span: 0}" :xs="{span: 0}">
+            <a-timeline>
+                <a-timeline-item v-for="(item,index) in articleListInfo" :key="item.aid">
                     <a-card>
                         <template #actions>
                             <span class="icon-hover"> <IconThumbUp/></span>
@@ -35,13 +35,52 @@
                             </template>
                         </a-card-meta>
                     </a-card>
+                    <br/>
+                    <br/>
+                </a-timeline-item>
+            </a-timeline>
+            <a-pagination :default-current="queryParam.current" :total="pagination.total"
+                          @change="methods.handleCurrentChange"/>
+        </a-col>
+    </a-row>
+
+
+    <a-row :gutter="24">
+        <a-col :lg="{span:0}" :md="{span: 0}" :sm="{span: 24}" :xs="{span: 24}">
+            <a v-for="(item,index) in articleListInfo" :key="item.aid">
+                <a-card>
+                    <template #cover>
+                        <a @click="router.push('Article/'+item.aid)">
+                            <div :style="{height: '204px',overflow: 'hidden',}">
+                                <img
+                                    :src=articleImgUrl(index)
+                                    alt="dessert"
+                                    style="height: 100%;width: 100%;object-fit: cover"
+                                />
+                            </div>
+                        </a>
+                    </template>
+
+                    <a-card-meta :description=item.desc
+                                 :title=item.title>
+                        <template #avatar>
+                            <div :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
+                                <a-avatar :size="24" :style="{ marginRight: '8px' }">
+                                    <img :src="item.User.avaterurl" alt="avatar"/>
+                                </a-avatar>
+                                <a-typography-text>{{ item.User.username }}</a-typography-text>
+                            </div>
+                        </template>
+                    </a-card-meta>
+                </a-card>
                 <br/>
                 <br/>
-            </a-timeline-item>
-        </a-timeline>
-        <a-pagination :default-current="queryParam.current" :total="pagination.total"
-                      @change="methods.handleCurrentChange"/>
-    </div>
+            </a>
+
+            <a-pagination :default-current="queryParam.current" :total="pagination.total"
+                          @change="methods.handleCurrentChange"/>
+        </a-col>
+    </a-row>
 </template>
 
 <script lang="ts" setup>
