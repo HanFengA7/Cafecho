@@ -121,10 +121,10 @@ const methods = {
     },
     handleCurrentChange(current: any) {
         queryParam.value.current = current;
-        console.log(`current page: ${current}`)
-        console.log(queryParam.value.current)
+        //console.log(`current page: ${current}`)
+        //onsole.log(queryParam.value.current)
         methods.getArticleList()
-        console.log(articleListInfo.value)
+        //console.log(articleListInfo.value)
     }
 }
 

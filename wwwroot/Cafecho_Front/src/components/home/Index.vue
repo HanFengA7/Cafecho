@@ -1,7 +1,7 @@
 <template>
   <!--PC [] start-->
     <a-row>
-        <a-col :lg="{span:32}" :md="{span: 0}" :sm="{span: 0}" :xs="{span: 0}"
+        <a-col :lg="{span:32}" :md="{span: 32}" :sm="{span: 0}" :xs="{span: 0}"
                style="height: 300px; width:100% ;background-color: #ffffff">
             <a-row>
                 <a-space>
@@ -88,7 +88,7 @@
     </div>
 
     <a-row :gutter="24">
-        <a-col :lg="{span:24}" :md="{span: 24}" :sm="{span: 0}" :xs="{span: 0}">
+        <a-col :lg="{span:24}" :md="{span: 0}" :sm="{span: 0}" :xs="{span: 0}">
             <div class="IndexBox-2-PC">
                 <a-row :gutter="24">
                     <a-col :lg="{span:20}" :md="{span: 20}" :sm="{span: 0}" :xs="{span: 0}">
@@ -103,10 +103,10 @@
     </a-row>
 
     <a-row :gutter="24">
-        <a-col :lg="{span:0}" :md="{span: 0}" :sm="{span: 24}" :xs="{span: 24}">
+        <a-col :lg="{span:0}" :md="{span: 24}" :sm="{span: 24}" :xs="{span: 24}">
             <div class="IndexBox-2-PE">
                 <a-row :gutter="24">
-                    <a-col :lg="{span:0}" :md="{span: 0}" :sm="{span: 24}" :xs="{span: 24}">
+                    <a-col :lg="{span:0}" :md="{span: 24}" :sm="{span: 24}" :xs="{span: 24}">
                         <ArticleList></ArticleList>
                     </a-col>
                     <a-col :span="4">
@@ -146,7 +146,7 @@ const SiteInfo: any = ref({
 api.getSiteInfoApi().then(res => {
     /*网站信息*/
     SiteInfo.value = res.data.data[0]
-    console.log(SiteInfo)
+    //console.log(SiteInfo)
     /*设置标题*/
     let Meta_Title: any = ref(res.data.data[0].sitename)
     emitter.emit('getMetaTitle', Meta_Title)

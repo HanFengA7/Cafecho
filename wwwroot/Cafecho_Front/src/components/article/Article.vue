@@ -4,39 +4,84 @@
         <a-layout>
             <Cafecho_Header></Cafecho_Header>
 
-            <a-layout-content style="background-color: #fafafa">
-                <div style="height: 200px; background-color: #ffffff">
-                    <a-row style="padding-left: 75px;padding-top: 25px;">
-                        <a-col flex="auto">
-                            <h1>{{ articleInfo.title }}</h1>
-                            <h4>{{ articleInfo.desc }}</h4>
-                            <a-col>
-                                <a-space>
-                                    <a-avatar>
-                                        <img
-                                                :src="articleInfo.User.avaterurl"
-                                                alt="avatar"
-                                        />
-                                    </a-avatar>
-                                    <h4>{{ articleInfo.User.username }}</h4>
-                                </a-space>
-                            </a-col>
-                        </a-col>
-                    </a-row>
-                </div>
-                <br/>
-                <div class="IndexBox-1">
-                    <a-row>
-                        <a-col>
-                            <a-card :bordered="false" class="BoxCard" hoverable>
-                                <div class="Cafecho-Content" v-html="articleInfo.content"></div>
-                            </a-card>
-                        </a-col>
-                    </a-row>
-                </div>
+            <a-row :gutter="24" style="height: 100%">
+                <a-col
+                    :lg="{span:24}" :md="{span: 24}" :sm="{span: 0}" :xs="{span: 0}"
+                    style="height: 100%"
+                >
+                    <a-layout-content style="background-color: #fafafa;height: 100%">
+                        <div style="height: 200px; background-color: #ffffff">
+                            <a-row style="padding-left: 75px;padding-top: 25px;">
+                                <a-col flex="auto">
+                                    <h1>{{ articleInfo.title }}</h1>
+                                    <h4>{{ articleInfo.desc }}</h4>
+                                    <a-col>
+                                        <a-space>
+                                            <a-avatar>
+                                                <img
+                                                    :src="articleInfo.User.avaterurl"
+                                                    alt="avatar"
+                                                />
+                                            </a-avatar>
+                                            <h4>{{ articleInfo.User.username }}</h4>
+                                        </a-space>
+                                    </a-col>
+                                </a-col>
+                            </a-row>
+                        </div>
+                        <br/>
+                        <div class="IndexBox-1-PC">
+                            <a-row>
+                                <a-col>
+                                    <a-card :bordered="false" class="BoxCard" hoverable>
+                                        <div class="Cafecho-Content" v-html="articleInfo.content"></div>
+                                    </a-card>
+                                </a-col>
+                            </a-row>
+                        </div>
 
-            </a-layout-content>
+                    </a-layout-content>
 
+                </a-col>
+
+                <a-col
+                    :lg="{span:0}" :md="{span: 0}" :sm="{span: 24}" :xs="{span: 24}"
+                    style="height: 100%"
+                >
+                    <a-layout-content style="background-color: #fafafa;height: 100%">
+                        <div style="height: 200px; background-color: #ffffff">
+                            <a-row style="padding-left: 15px;padding-top: 10px;">
+                                <a-col flex="auto">
+                                    <h1>{{ articleInfo.title }}</h1>
+                                    <h4>{{ articleInfo.desc }}</h4>
+                                    <a-col>
+                                        <a-space>
+                                            <a-avatar>
+                                                <img
+                                                    :src="articleInfo.User.avaterurl"
+                                                    alt="avatar"
+                                                />
+                                            </a-avatar>
+                                            <h4>{{ articleInfo.User.username }}</h4>
+                                        </a-space>
+                                    </a-col>
+                                </a-col>
+                            </a-row>
+                        </div>
+                        <br/>
+                        <div class="IndexBox-1-PE">
+                            <a-row>
+                                <a-col>
+                                    <a-card :bordered="false" class="BoxCard">
+                                        <div class="Cafecho-Content" v-html="articleInfo.content"></div>
+                                    </a-card>
+                                </a-col>
+                            </a-row>
+                        </div>
+
+                    </a-layout-content>
+                </a-col>
+            </a-row>
             <a-layout-footer></a-layout-footer>
         </a-layout>
     </a-layout>
@@ -118,15 +163,19 @@ toRefs(articleInfo)
 </script>
 
 <style scoped>
-.IndexBox-1 {
-    padding: 0px 200px;
+.IndexBox-1-PC {
+    padding: 0px 150px;
 }
 
-.IndexBox-1 .BoxCard {
-    border-radius: 5px;
+.IndexBox-1-PE {
+    padding: 0px 10px;
 }
 
-.IndexBox-1 .BoxCard span {
+.BoxCard {
+    border-radius: 10px;
+}
+
+.BoxCard span {
     display: flex;
     align-items: center;
     justify-content: space-around;
