@@ -115,7 +115,7 @@ const formState = reactive<FormState>({
     title: '',
     desc: '',
     tags: undefined,
-    cid: undefined,
+    cid: 1,
     img: '',
     content: '',
 });
