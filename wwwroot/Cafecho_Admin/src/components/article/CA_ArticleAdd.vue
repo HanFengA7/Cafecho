@@ -210,8 +210,8 @@ const onFinish = () => {
     formState.uid = uid
     formState.tags = TagsRef.value.toString()
     api.articleAddApi(formState).then(res => {
-        console.log(formState)
-        console.log(res)
+        //console.log(formState)
+        //console.log(res)
         if (res.data.status != 200) {
             notification.error({
                 message: 'Error',

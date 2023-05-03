@@ -102,7 +102,7 @@ import type {RouteLocationRaw} from "vue-router";
 
 const methods = {
     MenuRouterPath(item: { key: RouteLocationRaw }) {
-        router.push(item.key);
+        router.push('/' + item.key);
         return item.key;
     },
 }
