@@ -1,4 +1,4 @@
-import {get} from "../../request";
+import {get, post} from "../../request";
 
 
 const articleListApi = (data: any, queryParam: any) => {
@@ -16,6 +16,14 @@ const articleListApi = (data: any, queryParam: any) => {
     })
 }
 
+const articleAddApi = (data: any) => {
+    return post({
+        url: 'api/v1/article/add',
+        ...data
+    })
+}
+
 export default {
-    articleListApi
+    articleListApi,
+    articleAddApi,
 }

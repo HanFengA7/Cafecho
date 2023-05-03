@@ -84,6 +84,7 @@
 import router from "@/router";
 import {reactive, ref, toRefs} from "vue";
 import axios from "@/plugin/axios/axios";
+import api from "@/plugin/axios/api/article/articlelist"
 import Editor from "@/components/editor/index.vue";
 import {notification} from "ant-design-vue";
 import {Rule} from "ant-design-vue/es/form";
@@ -202,13 +203,15 @@ const rules: Record<string, Rule[]> = {
  * */
 const getContent = (v: string) => {
     formState.content = v
-    console.log(v)
+    //console.log(v)
 }
 //成功
 const onFinish = () => {
     formState.uid = uid
     formState.tags = TagsRef.value.toString()
-    axios.post('api/v1/article/add', formState).then(res => {
+    api.articleAddApi(formState).then(res => {
+        console.log(formState)
+        console.log(res)
         if (res.data.status != 200) {
             notification.error({
                 message: 'Error',
