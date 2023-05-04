@@ -109,13 +109,13 @@
 </template>
 
 <script lang="ts" setup>
-import {useRouter} from "vue-router";
-import {DeleteOutlined, EditOutlined, FormOutlined, InboxOutlined, InfoCircleOutlined} from "@ant-design/icons-vue";
-import {reactive, ref, toRefs} from "vue";
+import { useRouter } from "vue-router";
+import { DeleteOutlined, EditOutlined, FormOutlined, InboxOutlined, InfoCircleOutlined } from "@ant-design/icons-vue";
+import { reactive, ref, toRefs } from "vue";
 import api from "@/plugin/axios/api/category/categorylist";
-import {message} from "ant-design-vue";
+import { message } from "ant-design-vue";
 import axios from "@/plugin/axios/axios";
-import {Rule} from "ant-design-vue/es/form";
+import type { Rule } from "ant-design-vue/es/form";
 
 //基础
 const formRef = ref();

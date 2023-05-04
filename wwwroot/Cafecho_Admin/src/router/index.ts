@@ -1,26 +1,16 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import LoginView from "@/views/LoginView.vue";
+import { createRouter, createWebHistory } from "vue-router";
 import AdminView from "@/views/AdminView.vue";
-import CA_Index from "@/components/admin/CA_Index.vue";
-import CA_ArticleAdd from "@/components/article/CA_ArticleAdd.vue";
-import CA_ArticleEdit from "@/components/article/CA_EditArticle.vue"
-import CA_ArticleList from "@/components/article/CA_ArticleList.vue";
-import CA_CategoryAdd from "@/components/category/CA_CategoryAdd.vue";
-import CA_CategoryList from "@/components/category/CA_CategoryList.vue";
-import CA_UserAdd from "@/components/user/CA_UserAdd.vue";
-import CA_UserList from "@/components/user/CA_UserList.vue";
-import CA_SiteInfoEdit from "@/components/setup/CA_SiteInfoEdit.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
-            path: '/login',
-            name: 'Login',
+            path: "/login",
+            name: "Login",
             meta: {
-                title: "Cafecho Login",
+                title: "Cafecho Login"
             },
-            component: LoginView
+            component: () => import("@/views/LoginView.vue")
         },
         {
             path: '',
@@ -28,61 +18,77 @@ const router = createRouter({
             component: AdminView,
             children: [
                 {
-                    path: 'Index',
-                    component: CA_Index,
-                    name: 'Index',
+                    path: "Index",
+                    name: "Index",
                     meta: {
-                        title: "CafechoAdmin - 控制台",
+                        title: "CafechoAdmin - 控制台"
                     },
+                    component: () => import("@/components/admin/CA_Index.vue")
                 },
                 {
-                    path: 'ArticleAdd', component: CA_ArticleAdd, name: 'ArticleAdd',
+                    path: "ArticleAdd",
+                    name: "ArticleAdd",
                     meta: {
-                        title: "CafechoAdmin - 撰写文章",
+                        title: "CafechoAdmin - 撰写文章"
                     },
+                    component: () => import("@/components/article/CA_ArticleAdd.vue")
                 },
                 {
-                    path: 'ArticleEdit/:aid', component: CA_ArticleEdit, name: 'ArticleEdit',
+                    path: "ArticleEdit/:aid",
+                    name: "ArticleEdit",
                     meta: {
-                        title: "CafechoAdmin - 编辑文章",
+                        title: "CafechoAdmin - 编辑文章"
                     },
+                    component: () => import("@/components/article/CA_EditArticle.vue")
                 },
                 {
-                    path: 'ArticleList', component: CA_ArticleList, name: 'ArticleList',
+                    path: "ArticleList",
+                    name: "ArticleList",
                     meta: {
-                        title: "CafechoAdmin - 文章列表",
+                        title: "CafechoAdmin - 文章列表"
                     },
+                    component: () => import("@/components/article/CA_ArticleList.vue")
                 },
                 {
-                    path: 'CategoryAdd', component: CA_CategoryAdd, name: 'CategoryAdd',
+                    path: "CategoryAdd",
+                    name: "CategoryAdd",
                     meta: {
-                        title: "CafechoAdmin - 添加分类",
+                        title: "CafechoAdmin - 添加分类"
                     },
+                    component: () => import("@/components/category/CA_CategoryAdd.vue")
                 },
                 {
-                    path: 'CategoryList', component: CA_CategoryList, name: 'CategoryList',
+                    path: "CategoryList",
+                    name: "CategoryList",
                     meta: {
-                        title: "CafechoAdmin - 分类列表",
+                        title: "CafechoAdmin - 分类列表"
                     },
+                    component: () => import("@/components/category/CA_CategoryList.vue")
                 },
                 {
-                    path: 'UserAdd', component: CA_UserAdd, name: 'UserAdd',
+                    path: "UserAdd",
+                    name: "UserAdd",
                     meta: {
-                        title: "CafechoAdmin - 添加用户",
+                        title: "CafechoAdmin - 添加用户"
                     },
+                    component: () => import("@/components/user/CA_UserAdd.vue")
                 },
                 {
-                    path: 'UserList', component: CA_UserList, name: 'UserList',
+                    path: "UserList",
+                    name: "UserList",
                     meta: {
-                        title: "CafechoAdmin - 用户列表",
+                        title: "CafechoAdmin - 用户列表"
                     },
+                    component: () => import("@/components/user/CA_UserList.vue")
                 },
                 {
-                    path: 'SiteInfoEdit', component: CA_SiteInfoEdit, name: 'SiteInfoEdit',
+                    path: "SiteInfoEdit",
+                    name: "SiteInfoEdit",
                     meta: {
-                        title: "CafechoAdmin - 网站设置",
+                        title: "CafechoAdmin - 网站设置"
                     },
-                },
+                    component: () => import("@/components/setup/CA_SiteInfoEdit.vue")
+                }
             ],
         }
     ]

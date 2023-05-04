@@ -1,6 +1,6 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import {emitter} from "@/plugin/BusJs/bus";
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "../views/HomeView.vue";
+import { emitter } from "@/plugin/BusJs/bus";
 
 
 //console.log(Meta_Title.value)
@@ -20,7 +20,7 @@ const router = createRouter(
                         meta: {
                             title: '',
                         },
-                        component: () => import('../components/home/Index.vue')
+                        component: () => import("@/components/home/Index.vue")
                     },
                     {
                         path: '/About',

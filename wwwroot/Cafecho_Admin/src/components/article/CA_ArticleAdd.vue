@@ -82,12 +82,12 @@
 
 <script lang="ts" setup>
 import router from "@/router";
-import {reactive, ref, toRefs} from "vue";
+import { reactive, ref, toRefs } from "vue";
 import axios from "@/plugin/axios/axios";
-import api from "@/plugin/axios/api/article/articlelist"
+import api from "@/plugin/axios/api/article/articlelist";
 import Editor from "@/components/editor/index.vue";
-import {notification} from "ant-design-vue";
-import {Rule} from "ant-design-vue/es/form";
+import { notification } from "ant-design-vue";
+import type { Rule } from "ant-design-vue/es/form";
 
 /* *
  * [文章数据区域] [开始]

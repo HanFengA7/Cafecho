@@ -129,10 +129,10 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref, toRefs} from "vue";
-import {message} from "ant-design-vue";
+import { reactive, ref, toRefs } from "vue";
+import { message } from "ant-design-vue";
 import axios from "@/plugin/axios/axios";
-import api from "@/plugin/axios/api/user/userlist"
+import api from "@/plugin/axios/api/user/userlist";
 import {
     DeleteOutlined,
     DiffOutlined,
@@ -142,9 +142,9 @@ import {
     ReloadOutlined,
     UserAddOutlined,
     UserOutlined
-} from '@ant-design/icons-vue';
-import {useRouter} from "vue-router";
-import {Rule} from "ant-design-vue/es/form";
+} from "@ant-design/icons-vue";
+import { useRouter } from "vue-router";
+import type { Rule } from "ant-design-vue/es/form";
 
 const formRef = ref();
 const router = useRouter()
