@@ -11,11 +11,11 @@
 <script lang="ts" setup>
 import Editor from "@tinymce/tinymce-vue";
 import tinymce from "tinymce/tinymce.js";
-import "tinymce/themes/silver/"
-import "tinymce/icons/default/"
-import "tinymce/models/dom/"
-import "tinymce/skins/content/default/content.css"
-import {defineEmits, ref, watch} from "vue"
+import "tinymce/themes/silver/";
+import "tinymce/icons/default/";
+import "tinymce/models/dom/";
+import "@/assets/tinymcecontent.css";
+import { defineEmits, ref, watch } from "vue";
 
 const eInit = {
     language_url: '/admin/assets/js/tinymce/langs/zh_CN.js',

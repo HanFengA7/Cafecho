@@ -1,9 +1,9 @@
 import axios from "axios";
-import {Message, Notification} from '@arco-design/web-vue';
+import { Message, Notification } from "@arco-design/web-vue";
 
 const Service = axios.create({
-    baseURL: "https://mengkl.world:3000",
-    timeout: 300000,
+  baseURL: "/",
+  timeout: 300000
 })
 
 // 请求拦截器

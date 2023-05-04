@@ -1,1 +1,0 @@
-import{S as e}from"./axios-602dd91c.js";const r=t=>e({...t,method:"get"}),s=t=>e({...t,method:"post",params:t.data}),o=t=>e({...t,method:"delete",params:t.data}),p=t=>e({...t,method:"put"});export{p as a,o as d,r as g,s as p};
