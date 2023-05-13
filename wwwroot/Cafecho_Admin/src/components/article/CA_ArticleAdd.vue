@@ -94,7 +94,7 @@ import type { Rule } from "ant-design-vue/es/form";
  * */
 let uid: any;
 axios.get(
-  "api/v1/AuthTokenInfo/" + window.sessionStorage.getItem("token")
+  "/api/v1/AuthTokenInfo/" + window.sessionStorage.getItem("token")
 ).then(res => {
     uid = res.data.UserInfo[0].ID;
 });
@@ -107,7 +107,7 @@ interface FormState {
     tags: any;
     cid: any;
     img: string;
-    content: string;
+    content: any;
 }
 
 const formState = reactive<FormState>({
