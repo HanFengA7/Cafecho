@@ -15,19 +15,22 @@ import "tinymce/themes/silver/";
 import "tinymce/icons/default/";
 import "tinymce/models/dom/";
 import "@/assets/tinymcecontent.css";
+import "@/assets/js/tinymce/plugins/image/plugin.min.js";
+import "@/assets/js/tinymce/plugins/link/plugin.min.js";
 import { defineEmits, ref, watch } from "vue";
 
 const eInit = {
-    language_url: '/admin/assets/js/tinymce/langs/zh_CN.js',
-    language: 'zh_CN',
-    skin_url: '/admin/assets/js/tinymce/skins/ui/oxide',
-    base_url: '/admin/assets/js/tinymce/',
-    height: 400,
-    branding: false,
-    promotion: false,
-    menubar: true,
-    toolbar1: 'undo redo | styles | bold italic blockquote | link image | alignleft aligncenter alignright | h1 h2 h3 h4 h5 h6 |  backcolor | copy cut',
-}
+  language_url: "/admin/assets/js/tinymce/langs/zh_CN.js",
+  language: "zh_CN",
+  skin_url: "/admin/assets/js/tinymce/skins/ui/oxide",
+  base_url: "/admin/assets/js/tinymce/",
+  height: 400,
+  branding: false,
+  promotion: false,
+  menubar: true,
+  plugins: "image link",
+  toolbar1: "undo redo | styles | bold italic blockquote | link image | alignleft aligncenter alignright | h1 h2 h3 h4 h5 h6 |  backcolor | copy cut"
+};
 tinymce.init({})
 
 const emits = defineEmits(["getContent"])
