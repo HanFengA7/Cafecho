@@ -1,4 +1,5 @@
 <template>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <div>
         <Editor
             v-model="ContentValue"
@@ -28,6 +29,9 @@ const eInit = {
   branding: false,
   promotion: false,
   menubar: true,
+  mobile: {
+    menubar: true
+  },
   plugins: "image link",
   toolbar1: "undo redo | styles | bold italic blockquote | link image | alignleft aligncenter alignright | h1 h2 h3 h4 h5 h6 |  backcolor | copy cut"
 };

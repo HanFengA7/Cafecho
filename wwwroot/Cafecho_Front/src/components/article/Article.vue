@@ -1,4 +1,5 @@
 <template>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <a-layout style="height: 100%">
         <Cafecho_Sider></Cafecho_Sider>
         <a-layout>
@@ -34,7 +35,9 @@
                             <a-row>
                                 <a-col>
                                     <a-card :bordered="false" class="BoxCard" hoverable>
-                                        <div class="Cafecho-Content" v-html="articleInfo.content"></div>
+                                        <div class="Cafecho-Content" style="white-space:pre-wrap;word-wrap:break-word;">
+                                            <p v-html="articleInfo.content"></p>
+                                        </div>
                                     </a-card>
                                 </a-col>
                             </a-row>
@@ -73,7 +76,9 @@
                             <a-row>
                                 <a-col>
                                     <a-card :bordered="false" class="BoxCard">
-                                        <div class="Cafecho-Content" v-html="articleInfo.content"></div>
+                                        <div class="Cafecho-Content" style="white-space:pre-wrap;word-wrap:break-word;">
+                                            <p v-html="articleInfo.content"></p>
+                                        </div>
                                     </a-card>
                                 </a-col>
                             </a-row>
@@ -90,11 +95,11 @@
 <script lang="ts" setup>
 
 import Cafecho_Sider from "@/components/common/Sider.vue";
-import Cafecho_Header from "@/components/common/Header.vue"
-import {get} from "@/plugin/axios/request"
+import Cafecho_Header from "@/components/common/Header.vue";
+import { get } from "@/plugin/axios/request";
 import router from "@/router";
-import {emitter} from "@/plugin/BusJs/bus";
-import {reactive, ref, toRefs} from "vue";
+import { emitter } from "@/plugin/BusJs/bus";
+import { reactive, ref, toRefs } from "vue";
 
 const aid = router.currentRoute.value.params.aid
 

@@ -1,6 +1,8 @@
 # Logs
 log
 *.log
+.idea
+.gitignore
 
 /node_modules/.yarn-integrity
 /.idea/inspectionProfiles/Project_Default.xml
