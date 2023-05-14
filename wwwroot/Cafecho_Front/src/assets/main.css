@@ -1,5 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
 html, body, #app {
   margin: 0;
   padding: 0;
   height: 100%;
 }
+
+#container {
+  height: fit-content;
+  display: flex; /* 容器为flex布局 */
+  flex-direction: column; /* 方向为纵向，保持正常的从上到下文档流 */
+}
+
+
+

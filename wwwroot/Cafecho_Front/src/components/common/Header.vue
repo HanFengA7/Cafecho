@@ -1,10 +1,10 @@
 <template>
-    <a-layout-header style=" background-color: #ffffff; margin: 15px">
+    <a-layout-header style=" background-color: #ffffff; padding: 15px">
         <a-row>
             <a-col :lg="{span:24}" :md="{span: 24}" :sm="{span: 0}" :xs="{span: 0}" flex="100px">
                 <a-button shape="round" @click="methods.onCollapse()">
-                    <IconCaretRight v-if="collapsed"/>
-                    <IconCaretLeft v-else/>
+                    <IconCaretRight v-if="collapsed" />
+                    <IconCaretLeft v-else />
                 </a-button>
             </a-col>
             <a-col flex="auto"></a-col>
@@ -25,11 +25,11 @@
 </template>
 
 <script lang="ts" setup>
-import {IconCaretLeft, IconCaretRight, IconSunFill} from "@arco-design/web-vue/es/icon";
-import {emitter} from "@/plugin/BusJs/bus";
+import { IconCaretLeft, IconCaretRight, IconSunFill } from "@arco-design/web-vue/es/icon";
+import { emitter } from "@/plugin/BusJs/bus";
 
-import {ref,} from "vue";
-import {Message} from "@arco-design/web-vue";
+import { ref } from "vue";
+import { Message } from "@arco-design/web-vue";
 
 
 let collapsed: any

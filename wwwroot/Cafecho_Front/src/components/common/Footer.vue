@@ -1,39 +1,67 @@
 <template>
-  <a-layout-footer>
+  <a-layout-footer class="footer">
 
-    <div class="footer-wrap-PC">
-      <div class="footer-top-PC">
+    <a-row :gutter="24">
 
-        <!--左侧-->
-        <div class="footer-top-icp-PC">
-          <a v-if="ificpnum1" href="https://beian.miit.gov.cn/" target="_blank">互联网ICP备案：{{ SiteInfo.icpnum1 }}</a>
-          <span>
+      <!--PC(Start)-->
+      <a-col :lg="{span:24}" :md="{span: 24}" :sm="{span: 0}" :xs="{span: 0}">
+        <div class="footer-wrap-PC">
+          <div class="footer-top-PC">
+            <!--左侧(Start)-->
+            <div class="footer-top-icp-PC">
+              <a v-if="ificpnum1" href="https://beian.miit.gov.cn/" target="_blank">互联网ICP备案：{{ SiteInfo.icpnum1
+                }}</a>
+              <span>
             <a v-if="ificpnum2" href="https://www.beian.gov.cn/"
                target="_blank">互联网公安备案：{{ SiteInfo.icpnum2 }}</a>
           </span>
-          <span data-v-0f1600f3="">Copyright © {{ SiteInfo.footer_siteyear }}-2023 {{ SiteInfo.blogger }}</span>
-        </div>
-        <!--右侧-->
-        <div class="footer-top-contact-PC">
-          <div class="Cafecho-valign">
-            <div style="margin-left: 30px;">遇到问题,联系我？</div>
+              <span data-v-0f1600f3="">Copyright © {{ SiteInfo.footer_siteyear }}-2023 {{ SiteInfo.blogger }}</span>
+            </div>
+            <!--左侧(End)-->
+            <!--右侧(Start)-->
+            <div class="footer-top-contact-PC">
+              <div class="Cafecho-valign">
+                <div style="margin-left: 30px;">遇到问题,联系我？</div>
+              </div>
+              <div class="footer-top-icon-PC">
+                <a :href=SiteInfo.cardinfo_qq>
+                  <IconQqCircleFill style="font-size: 20px; color: #e5e5e5;" />
+                </a>
+                <a :href=SiteInfo.cardinfo_github>
+                  <IconGithub style="font-size: 20px; color: #e5e5e5;" />
+                </a>
+                <a :href=SiteInfo.cardinfo_afdian>
+                  <IconFaceSmileFill style="font-size: 20px; color: #e5e5e5;" />
+                </a>
+              </div>
+            </div>
+            <!--右侧(End)-->
           </div>
-          <div class="footer-top-icon-PC">
-            <a :href=SiteInfo.cardinfo_qq>
-              <IconQqCircleFill style="font-size: 20px; color: #e5e5e5;" />
-            </a>
-            <a :href=SiteInfo.cardinfo_github>
-              <IconGithub style="font-size: 20px; color: #e5e5e5;" />
-            </a>
-            <a :href=SiteInfo.cardinfo_afdian>
-              <IconFaceSmileFill style="font-size: 20px; color: #e5e5e5;" />
-            </a>
+        </div>
+      </a-col>
+      <!--PC(End)-->
+
+      <!--PE(Start)-->
+      <a-col :lg="{span:0}" :md="{span: 0}" :sm="{span: 24}" :xs="{span: 24}">
+        <div class="footer-wrap-PC">
+          <div class="footer-top-PC">
+            <!--左侧(Start)-->
+            <div class="footer-top-icp-PC">
+              <a v-if="ificpnum1" href="https://beian.miit.gov.cn/" target="_blank">互联网ICP备案：{{ SiteInfo.icpnum1
+                }}</a>
+              <span>
+            <a v-if="ificpnum2" href="https://www.beian.gov.cn/"
+               target="_blank">互联网公安备案：{{ SiteInfo.icpnum2 }}</a>
+          </span>
+              <span data-v-0f1600f3="">Copyright © {{ SiteInfo.footer_siteyear }}-2023 {{ SiteInfo.blogger }}</span>
+            </div>
+            <!--左侧(End)-->
           </div>
         </div>
+      </a-col>
+      <!--PE(End)-->
 
-      </div>
-    </div>
-
+    </a-row>
   </a-layout-footer>
 </template>
 
@@ -139,5 +167,9 @@ api.getSiteInfoApi().then(res => {
 .footer-top-icon-PC a:hover {
     transition: all .2s;
     transform: scale(0.8);
+}
+
+footer {
+    margin-top: auto; /* 设置footer的上外边距为auto */
 }
 </style>

@@ -4,7 +4,7 @@
         <a-layout>
           <Cafecho_Header></Cafecho_Header>
 
-          <a-layout-content style="background-color: #fafafa">
+          <a-layout-content id="container" style="background-color: #fafafa">
             <RouterView />
           </a-layout-content>
 

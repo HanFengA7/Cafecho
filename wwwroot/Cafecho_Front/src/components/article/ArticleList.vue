@@ -62,11 +62,13 @@
                     </template>
 
                     <a-card-meta :description=item.desc
-                                 :title=item.title>
+                                 :title=item.title
+                                 style="white-space:pre-wrap;word-wrap:break-word;"
+                    >
                         <template #avatar>
                             <div :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
                                 <a-avatar :size="24" :style="{ marginRight: '8px' }">
-                                    <img :src="item.User.avaterurl" alt="avatar"/>
+                                    <img :src="item.User.avaterurl" alt="avatar" />
                                 </a-avatar>
                                 <a-typography-text>{{ item.User.username }}</a-typography-text>
                             </div>
@@ -84,9 +86,9 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
-import {IconFire, IconShareInternal, IconThumbUp} from "@arco-design/web-vue/es/icon";
-import api from "@/plugin/axios/api/article/articlelist"
+import { ref } from "vue";
+import { IconFire, IconShareInternal, IconThumbUp } from "@arco-design/web-vue/es/icon";
+import api from "@/plugin/axios/api/article/articlelist";
 import router from "@/router";
 
 //文章列表数据
