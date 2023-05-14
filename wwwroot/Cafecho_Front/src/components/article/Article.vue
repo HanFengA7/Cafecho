@@ -15,7 +15,7 @@
                             <a-row style="padding-left: 75px;padding-top: 25px;">
                                 <a-col flex="auto">
                                     <h1>{{ articleInfo.title }}</h1>
-                                    <h4>{{ articleInfo.desc }}</h4>
+                                    <h4 style="white-space:pre-wrap;word-wrap:break-word;">{{ articleInfo.desc }}</h4>
                                     <a-col>
                                         <a-space>
                                             <a-avatar>
@@ -55,14 +55,14 @@
                         <div style="height: 200px; background-color: #ffffff">
                             <a-row style="padding-left: 15px;padding-top: 10px;">
                                 <a-col flex="auto">
-                                    <h1>{{ articleInfo.title }}</h1>
-                                    <h4>{{ articleInfo.desc }}</h4>
+                                    <h1 style="white-space:pre-wrap;word-wrap:break-word;">{{ articleInfo.title }}</h1>
+                                    <h4 style="white-space:pre-wrap;word-wrap:break-word;">{{ articleInfo.desc }}</h4>
                                     <a-col>
                                         <a-space>
                                             <a-avatar>
                                                 <img
-                                                    :src="articleInfo.User.avaterurl"
-                                                    alt="avatar"
+                                                  :src="articleInfo.User.avaterurl"
+                                                  alt="avatar"
                                                 />
                                             </a-avatar>
                                             <h4>{{ articleInfo.User.username }}</h4>
