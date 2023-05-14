@@ -47,11 +47,11 @@
           <div class="footer-top-PC">
             <!--左侧(Start)-->
             <div class="footer-top-icp-PC">
-              <a v-if="ificpnum1" href="https://beian.miit.gov.cn/" target="_blank">互联网ICP备案：{{ SiteInfo.icpnum1
+              <a v-if="ificpnum1" href="https://beian.miit.gov.cn/" target="_blank">ICP备案: {{ SiteInfo.icpnum1
                 }}</a>
               <span>
             <a v-if="ificpnum2" href="https://www.beian.gov.cn/"
-               target="_blank">互联网公安备案：{{ SiteInfo.icpnum2 }}</a>
+               target="_blank">公安备案: {{ SiteInfo.icpnum2 }}</a>
           </span>
               <span data-v-0f1600f3="">Copyright © {{ SiteInfo.footer_siteyear }}-2023 {{ SiteInfo.blogger }}</span>
             </div>
