@@ -1,104 +1,116 @@
 <template>
-    <div style="height: 300px; background-color: #ffffff">
-        <a-row>
-            <a-space>
-                <a-col flex="100px">
-                    <div>
-                        <div style="padding: 45px;">
-                            <a-avatar :size="200" style="box-shadow: 0 12px 15px rgb(140 152 164 / 10%);">
-                                <img alt="avatar" src="https://q1.qlogo.cn/g?b=qq&nk=1091044631&s=640"/>
-                            </a-avatar>
-                        </div>
-                    </div>
-                </a-col>
-                <a-col flex="auto">
-                    <h1>HanFengA7</h1>
-                    <h4>This is HanFengA7 !</h4>
-                    <a-col>
-                        <a-space>
-                            <a-button shape="round">
-                                <IconGithub/>
-                            </a-button>
-                            <a-button shape="round">
-                                <IconQqCircleFill/>
-                            </a-button>
-                        </a-space>
-                    </a-col>
-                </a-col>
-            </a-space>
-        </a-row>
-    </div>
+  <!--PC [顶部信息卡片] start-->
+  <a-row>
+    <a-col :lg="{span:32}" :md="{span: 32}" :sm="{span: 0}" :xs="{span: 0}"
+           style="height: 300px; width:100% ;background-color: #ffffff">
+      <a-row>
+        <a-space>
+          <a-col flex="100px">
+            <div>
+              <div style="padding: 45px;">
+                <a-avatar :size="200" style="box-shadow: 0 12px 15px rgb(140 152 164 / 10%);">
+                  <img :src="SiteInfo.logourl" alt="avatar" />
+                </a-avatar>
+              </div>
+            </div>
+          </a-col>
+          <a-col flex="auto">
+            <h1>{{ SiteInfo.blogger }}</h1>
+            <h4>{{ SiteInfo.slogan }}</h4>
+            <a-col>
+              <a-space>
+                <a-button shape="round">
+                  <IconGithub />
+                </a-button>
+                <a-button shape="round">
+                  <IconQqCircleFill />
+                </a-button>
+              </a-space>
+            </a-col>
+          </a-col>
+        </a-space>
+      </a-row>
+    </a-col>
+  </a-row>
+  <!--PC [顶部信息卡片] End-->
+
+  <div :style="{ padding: '28px' }">
+    <a-page-header
+      :show-back="false"
+      :style="{ background: 'var(--color-bg-2)' }"
+      subtitle="About me"
+      title="关于"
+    >
+      <template #extra>
+        <a-radio-group default-value="large" type="button">
+          <a-radio value="mini">Mini</a-radio>
+          <a-radio value="small">Small</a-radio>
+          <a-radio value="large">Large</a-radio>
+        </a-radio-group>
+      </template>
+    </a-page-header>
+  </div>
 
 
-    <div class="IndexBox-1">
-
-        <a-row :gutter="{ md: 8, lg: 24, xl: 32 }">
-            <a-col :span="6">
-                <a @click="router.push('About')">
-                    <a-card :bordered="false" class="BoxCard" hoverable>
-                                    <span>
-                                    <a-avatar
-                                            :size="40"
-                                            shape="square"
-                                    >
-                                        <IconHeart/>
-                                    </a-avatar>
-                                    <a-typography-text>关 于</a-typography-text>
-                                    </span>
-                    </a-card>
-                </a>
-            </a-col>
-            <a-col :span="6">
-                <a-card :bordered="false" class="BoxCard" hoverable>
-                                    <span>
-                                    <a-avatar
-                                            :size="40"
-                                            shape="square"
-                                    >
-                                        <IconMindMapping/>
-                                    </a-avatar>
-                                    <a-typography-text>计 划</a-typography-text>
-                                    </span>
-                </a-card>
-            </a-col>
-            <a-col :span="6">
-                <a-card :bordered="false" class="BoxCard" hoverable>
-                                    <span>
-                                    <a-avatar
-                                            :size="40"
-                                            shape="square"
-                                    >
-                                        <IconUserGroup/>
-                                    </a-avatar>
-                                    <a-typography-text>朋 友</a-typography-text>
-                                    </span>
-                </a-card>
-            </a-col>
-        </a-row>
-    </div>
 </template>
 
 <script lang="ts" setup>
 
+import { IconGithub, IconQqCircleFill } from "@arco-design/web-vue/es/icon";
+import { emitter } from "@/plugin/BusJs/bus";
+import { ref } from "vue";
+import api from "@/plugin/axios/api/common/siteinfo";
 import router from "@/router";
-import {IconGithub, IconHeart, IconMindMapping, IconQqCircleFill, IconUserGroup} from "@arco-design/web-vue/es/icon";
+
+const OnBack = () => {
+  router.push("/");
+};
+
+const SiteInfo: any = ref({
+  sitename: "",
+  slogan: "",
+  logourl: "",
+  blogger: ""
+});
+
+api.getSiteInfoApi().then(res => {
+  /*设置侧边栏选择选项*/
+  let SelectedKeys: any = ref(["2"]);
+  emitter.emit("getSelectedKeys", SelectedKeys);
+  /*网站信息*/
+  SiteInfo.value = res.data.data[0];
+  /*设置标题*/
+  let Meta_Title: any = ref(res.data.data[0].sitename);
+  emitter.emit("getMetaTitle", Meta_Title);
+});
+
+
+
 </script>
 
 <style scoped>
 .IndexBox-1 {
-    /*padding: 25px 400px;*/
-    transform: translateY(-50%);
-    padding: 0px 400px;
+  /*padding: 25px 400px;*/
+  transform: translateY(-50%);
+  padding: 0 150px;
 }
 
 .IndexBox-1 .BoxCard {
-    background-color: #dfe0e23b;
-    border-radius: 10px;
+  background-color: #dfe0e23b;
+  border-radius: 10px;
 }
 
 .IndexBox-1 .BoxCard span {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.IndexBox-2-PC {
+  padding: 25px 250px;
+}
+
+.IndexBox-2-PE {
+  padding: 25px 25px;
 }
 </style>

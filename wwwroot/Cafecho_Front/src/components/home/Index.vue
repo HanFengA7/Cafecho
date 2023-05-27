@@ -122,18 +122,18 @@
 <script lang="ts" setup>
 
 import {
-    IconGithub,
-    IconHeart,
-    IconHome,
-    IconMindMapping,
-    IconQqCircleFill,
-    IconUserGroup
+  IconGithub,
+  IconHeart,
+  IconHome,
+  IconMindMapping,
+  IconQqCircleFill,
+  IconUserGroup
 } from "@arco-design/web-vue/es/icon";
 import ArticleList from "@/components/article/ArticleList.vue";
-import {emitter} from "@/plugin/BusJs/bus";
-import {ref} from "vue";
-import api from "@/plugin/axios/api/common/siteinfo"
-import {Message} from '@arco-design/web-vue';
+import { emitter } from "@/plugin/BusJs/bus";
+import { ref } from "vue";
+import api from "@/plugin/axios/api/common/siteinfo";
+import { Message } from "@arco-design/web-vue";
 import router from "@/router";
 
 const SiteInfo: any = ref({
@@ -144,12 +144,14 @@ const SiteInfo: any = ref({
 })
 
 api.getSiteInfoApi().then(res => {
-    /*网站信息*/
-    SiteInfo.value = res.data.data[0]
-    //console.log(SiteInfo)
-    /*设置标题*/
-    let Meta_Title: any = ref(res.data.data[0].sitename)
-    emitter.emit('getMetaTitle', Meta_Title)
+  /*设置侧边栏选择选项*/
+  let SelectedKeys: any = ref(["1"]);
+  emitter.emit("getSelectedKeys", SelectedKeys);
+  /*网站信息*/
+  SiteInfo.value = res.data.data[0];
+  /*设置标题*/
+  let Meta_Title: any = ref(res.data.data[0].sitename);
+  emitter.emit("getMetaTitle", Meta_Title);
 })
 
 const CTest = () => {
